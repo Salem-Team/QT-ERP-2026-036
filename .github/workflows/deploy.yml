@@ -1,40 +1,45 @@
+# Deploy static quotation to VPS
+# Secrets: VPS_HOST, VPS_USER, VPS_SSH_KEY
 name: Deploy to VPS
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: deploy-qt-erp-2026-036
+  cancel-in-progress: false
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup SSH
-        run: |
-          mkdir -p ~/.ssh
-          printf '%s\n' "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
-          chmod 600 ~/.ssh/id_ed25519
-          ssh-keyscan -H "${{ secrets.VPS_HOST }}" >> ~/.ssh/known_hosts 2>/dev/null || true
-          cat > ~/.ssh/config <<EOF
-          Host vps
-            HostName ${{ secrets.VPS_HOST }}
-            User ${{ secrets.VPS_USER }}
-            IdentityFile ~/.ssh/id_ed25519
-            StrictHostKeyChecking accept-new
-            IdentitiesOnly yes
-          EOF
+      - name: Upload site files
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: 22
+          source: index.html,Custom_Engineering_ERP_Quotation.html,logo.png,deploy
+          target: /var/www/QT-ERP-2026-036
+          overwrite: true
 
-      - name: Sync files
-        run: |
-          rsync -az --delete \
-            --exclude '.git' \
-            --exclude '.github' \
-            --exclude '.DS_Store' \
-            ./ vps:/var/www/QT-ERP-2026-036/
-
-      - name: Configure nginx
-        run: |
-          ssh vps 'chmod +x /var/www/QT-ERP-2026-036/deploy/vps-nginx-sync.sh && bash /var/www/QT-ERP-2026-036/deploy/vps-nginx-sync.sh'
+      - name: Nginx sync
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: 22
+          script_stop: true
+          script: |
+            set -e
+            chmod +x /var/www/QT-ERP-2026-036/deploy/vps-nginx-sync.sh
+            bash /var/www/QT-ERP-2026-036/deploy/vps-nginx-sync.sh
