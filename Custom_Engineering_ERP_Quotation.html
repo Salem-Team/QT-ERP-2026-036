@@ -1,0 +1,1934 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#051848" />
+  <title>عرض سعر | Quotation — Engineering ERP</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy: #082868;
+      --navy-deep: #051848;
+      --soft: #f7f8fb;
+      --line: #e3e8f0;
+      --ink: #1a2233;
+      --body: #4a5568;
+      --muted: #7a8499;
+      --ok: #1f6b4a;
+      --warn: #9a4d2e;
+      --font-ar: "IBM Plex Sans Arabic", "IBM Plex Sans", system-ui, sans-serif;
+      --font-en: "IBM Plex Sans", "IBM Plex Sans Arabic", system-ui, sans-serif;
+      --safe-top: env(safe-area-inset-top, 0px);
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --bar-h: 56px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+    @keyframes rk-fade-up {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes rk-fade-in {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    body {
+      font-family: var(--font-ar); color: var(--ink); background: #eef1f6;
+      font-size: 15px; line-height: 1.7; -webkit-font-smoothing: antialiased;
+      padding-bottom: var(--safe-bottom);
+    }
+    html[lang="en"] body { font-family: var(--font-en); }
+
+    .topbar {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(5, 24, 72, 0.96);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      color: #fff; padding: calc(8px + var(--safe-top)) 14px 8px;
+      min-height: calc(var(--bar-h) + var(--safe-top));
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    }
+    .topbar-brand {
+      display: flex; align-items: center; gap: 10px; min-width: 0;
+    }
+    .topbar-brand .logo-chip {
+      display: flex; align-items: center; justify-content: center;
+      background: #fff;
+      border-radius: 8px;
+      padding: 4px 8px;
+      height: 40px;
+      flex-shrink: 0;
+    }
+    .topbar-brand .logo-chip img {
+      height: 28px; width: auto; display: block;
+      filter: none !important;
+    }
+    .topbar-brand span {
+      font-size: 13px; font-weight: 700; white-space: nowrap;
+      overflow: hidden; text-overflow: ellipsis;
+      color: var(--navy-deep);
+      background: #fff;
+      border-radius: 8px;
+      padding: 8px 12px;
+      line-height: 1.2;
+    }
+    .lang-toggle {
+      display: inline-flex; background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.22); border-radius: 999px; padding: 3px; flex-shrink: 0;
+    }
+    .lang-toggle button {
+      font-family: inherit; font-size: 12.5px; font-weight: 700; border: 0; background: transparent;
+      color: rgba(255,255,255,.75); padding: 8px 14px; border-radius: 999px; cursor: pointer;
+      min-width: 48px; min-height: 36px; -webkit-tap-highlight-color: transparent;
+    }
+    .lang-toggle button[aria-pressed="true"] { background: #fff; color: var(--navy); }
+
+    .page { max-width: 880px; margin: 0 auto; padding: 20px 12px 48px; }
+    .sheet {
+      background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 28px 22px;
+    }
+    @media (min-width: 640px) {
+      .page { padding: 28px 16px 64px; }
+      .sheet { padding: 40px 44px; }
+      .topbar { padding-inline: 20px; }
+      .topbar-brand .logo-chip { height: 44px; padding: 5px 10px; }
+      .topbar-brand .logo-chip img { height: 32px; }
+    }
+
+    .doc-header {
+      text-align: center; padding-bottom: 24px; margin-bottom: 24px; border-bottom: 1px solid var(--line);
+    }
+    .doc-header > img { height: 56px; width: auto; margin-bottom: 12px; }
+    @media (min-width: 640px) { .doc-header > img { height: 64px; } }
+    .doc-header .company { font-size: 15px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+    .doc-header .doc-type { font-size: 13px; color: var(--muted); margin-bottom: 10px; }
+    .doc-header h1 {
+      font-size: clamp(1.25rem, 4.5vw, 1.55rem); font-weight: 700; color: var(--navy-deep); line-height: 1.35;
+    }
+    .doc-header .desc {
+      max-width: 640px; margin: 12px auto 0; font-size: 14px; color: var(--body); text-align: start;
+    }
+
+    .hero-totals {
+      display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 22px;
+    }
+    @media (min-width: 520px) { .hero-totals { grid-template-columns: 1.4fr 1fr; } }
+    .hero-card {
+      border-radius: 10px; padding: 16px 18px; text-align: start;
+      border: 1px solid var(--line); background: var(--soft);
+    }
+    .hero-card.primary {
+      background: var(--navy); color: #fff; border-color: var(--navy);
+    }
+    .hero-card .lbl { font-size: 11px; font-weight: 700; opacity: .7; margin-bottom: 6px; text-transform: uppercase; letter-spacing: .04em; }
+    .hero-card.primary .lbl { opacity: .65; color: #fff; }
+    .hero-card .val { font-size: 22px; font-weight: 700; line-height: 1.25; }
+    .hero-card.primary .val { font-size: clamp(1.5rem, 5vw, 1.85rem); direction: ltr; unicode-bidi: isolate; }
+
+    .meta {
+      display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 20px; text-align: start;
+      max-width: 520px; margin-inline: auto;
+    }
+    @media (min-width: 480px) { .meta { grid-template-columns: 1fr 1fr; gap: 12px 24px; } }
+    .meta dt { font-size: 12px; color: var(--muted); margin-bottom: 2px; }
+    .meta dd { font-size: 14px; font-weight: 600; color: var(--ink); word-break: break-word; }
+
+    section {
+      margin-bottom: 32px; padding-bottom: 28px; border-bottom: 1px solid var(--line);
+      scroll-margin-top: calc(var(--bar-h) + var(--safe-top) + 16px);
+    }
+    section:last-of-type { border-bottom: 0; margin-bottom: 0; padding-bottom: 0; }
+    .sec-label { font-size: 11px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+    h2 {
+      font-size: clamp(1.1rem, 3.8vw, 1.3rem); font-weight: 700; color: var(--navy-deep);
+      margin-bottom: 14px; line-height: 1.3;
+    }
+
+    /* Table of contents */
+    .toc {
+      margin: 8px 0 28px;
+      padding: 16px 16px 12px;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+    }
+    .toc-title {
+      font-size: 12px; font-weight: 700; color: var(--navy);
+      letter-spacing: .04em; margin-bottom: 12px;
+    }
+    .toc-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 4px;
+    }
+    @media (min-width: 560px) {
+      .toc-list { grid-template-columns: 1fr 1fr; gap: 6px 16px; }
+    }
+    .toc-list a {
+      display: flex; align-items: baseline; gap: 10px;
+      text-decoration: none; color: var(--ink);
+      padding: 9px 10px; border-radius: 8px;
+      font-size: 13.5px; font-weight: 600; line-height: 1.35;
+      transition: background .2s ease, color .2s ease, transform .2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .toc-list a:hover,
+    .toc-list a:focus-visible {
+      background: #fff; color: var(--navy);
+      outline: none;
+      box-shadow: inset 0 0 0 1px var(--line);
+      transform: translateY(-1px);
+    }
+    .toc-list .toc-num {
+      flex-shrink: 0; min-width: 1.6em;
+      font-size: 12px; font-weight: 700; color: var(--navy);
+      font-variant-numeric: tabular-nums;
+    }
+    .toc-list .toc-label { flex: 1; min-width: 0; }
+    @media print {
+      .toc { break-inside: avoid; }
+      .toc-list a { color: var(--ink); box-shadow: none; }
+    }
+    h3.scope-h { font-size: 14px; font-weight: 700; color: var(--navy); margin: 16px 0 8px; }
+    p { color: var(--body); margin-bottom: 10px; }
+    .quote {
+      margin: 14px 0; padding: 12px 14px; background: var(--soft);
+      border-inline-start: 3px solid var(--navy); font-weight: 700; color: var(--navy-deep); font-size: 14.5px;
+    }
+    .note {
+      margin: 0 0 14px; padding: 12px 14px; background: var(--soft);
+      border-radius: 8px; font-size: 13px; color: var(--body);
+    }
+
+    .items { list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
+    .items li {
+      font-size: 12.5px; color: var(--body); background: var(--soft);
+      border: 1px solid var(--line); border-radius: 6px; padding: 6px 10px; line-height: 1.45; max-width: 100%;
+    }
+
+    .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin-top: 8px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 640px; }
+    th {
+      text-align: start; padding: 10px 10px; background: var(--navy); color: #fff;
+      font-weight: 600; font-size: 11.5px; white-space: nowrap;
+    }
+    td {
+      padding: 10px; border-bottom: 1px solid var(--line); color: var(--body); vertical-align: top;
+    }
+    tr:nth-child(even) td { background: var(--soft); }
+    td.num, th.num {
+      text-align: end; font-weight: 700; color: var(--ink);
+      font-variant-numeric: tabular-nums; white-space: nowrap;
+      direction: ltr; unicode-bidi: isolate;
+    }
+    td .scope-mini { font-size: 11.5px; color: var(--muted); margin-top: 3px; line-height: 1.45; }
+    td .badge {
+      display: inline-block; font-size: 11px; font-weight: 700; color: var(--ok);
+      background: #e8f5ef; border-radius: 999px; padding: 2px 8px;
+    }
+    tfoot td {
+      background: var(--navy-deep) !important; color: #fff; font-weight: 700;
+      padding: 13px 10px; font-size: 14px; border: 0;
+    }
+    tr.svc-row td { background: #f0f4fb !important; font-weight: 600; }
+
+    .mod-mobile { display: grid; gap: 10px; margin-top: 8px; }
+    @media (min-width: 760px) { .mod-mobile { display: none; } .mod-desktop { display: block; } }
+    @media (max-width: 759px) { .mod-desktop { display: none; } }
+    .mod-card {
+      border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; background: var(--soft);
+      transition: opacity .25s ease, border-color .2s ease, background .2s ease;
+    }
+    .mod-card.off { opacity: .48; }
+    .mod-card .mc-top { display: flex; justify-content: space-between; gap: 10px; align-items: flex-start; }
+    .mod-card .mc-name { font-size: 13.5px; font-weight: 700; color: var(--ink); }
+    .mod-card .mc-price { font-weight: 700; direction: ltr; unicode-bidi: isolate; white-space: nowrap; }
+    .mod-card .mc-scope { font-size: 12px; color: var(--muted); margin-top: 6px; }
+    .mod-card .mc-meta { font-size: 11.5px; color: var(--muted); margin-top: 6px; display: flex; gap: 10px; flex-wrap: wrap; }
+
+    .pricing-mode {
+      display: grid; grid-template-columns: 1fr; gap: 10px; margin: 12px 0 16px;
+    }
+    @media (min-width: 560px) { .pricing-mode { grid-template-columns: 1fr 1fr; } }
+    .mode-card {
+      border: 1.5px solid var(--line); border-radius: 10px; padding: 14px 16px;
+      background: #fff; cursor: pointer; text-align: start;
+      transition: border-color .2s ease, background .2s ease, transform .2s ease, box-shadow .2s ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .mode-card:hover { border-color: rgba(8,40,104,.35); box-shadow: 0 4px 14px rgba(8,40,104,.08); }
+    .mode-card:active { transform: scale(.985); }
+    .mode-card.active {
+      border-color: var(--navy); background: #eef2fb;
+      box-shadow: 0 6px 18px rgba(8,40,104,.12);
+    }
+    .mode-card .mt { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 4px; }
+    .mode-card .md { font-size: 12.5px; color: var(--muted); margin-bottom: 8px; }
+    .mode-card .mp {
+      font-size: 18px; font-weight: 700; color: var(--navy);
+      direction: ltr; unicode-bidi: isolate;
+    }
+    .sel-bar {
+      display: flex; flex-wrap: wrap; gap: 8px; align-items: center;
+      justify-content: space-between; margin-bottom: 12px;
+    }
+    .sel-bar .info { font-size: 13px; color: var(--body); font-weight: 600; }
+    .sel-bar .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+    .sel-bar button {
+      font-family: inherit; font-size: 12.5px; font-weight: 600;
+      border: 1px solid var(--line); background: var(--soft); color: var(--navy);
+      border-radius: 8px; padding: 8px 12px; cursor: pointer; min-height: 38px;
+    }
+    .sel-bar button.primary { background: var(--navy); color: #fff; border-color: var(--navy); }
+
+    /* Selection summary — sticky on desktop only */
+    .sel-summary {
+      position: relative;
+      z-index: 40;
+      margin: 0 0 18px;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #051848;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,.1);
+      box-shadow: 0 8px 24px rgba(5, 24, 72, 0.16);
+      transition: box-shadow .25s ease, transform .25s ease;
+      animation: rk-fade-up .4s ease both;
+    }
+    @media (min-width: 760px) {
+      .sel-summary {
+        position: sticky;
+        top: calc(var(--bar-h) + var(--safe-top) + 8px);
+      }
+    }
+    .sel-summary-inner { padding: 0; }
+    .sel-summary .ss-head {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 10px; flex-wrap: wrap;
+      padding: 14px 16px 12px;
+      border-bottom: 1px solid rgba(255,255,255,.1);
+    }
+    .sel-summary .ss-mode {
+      font-size: 13px; font-weight: 700; color: #fff;
+    }
+    .sel-summary .ss-count {
+      font-size: 12px; font-weight: 600;
+      color: rgba(255,255,255,.6);
+      background: rgba(255,255,255,.08);
+      border-radius: 999px; padding: 4px 10px;
+    }
+    .sel-summary .ss-totals {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1px;
+      background: rgba(255,255,255,.08);
+    }
+    @media (min-width: 480px) {
+      .sel-summary .ss-totals { grid-template-columns: 1fr 1fr; }
+    }
+    .sel-summary .ss-total {
+      background: #051848;
+      padding: 16px 16px 14px;
+    }
+    .sel-summary .ss-total .lbl {
+      font-size: 11px; font-weight: 600;
+      color: rgba(255,255,255,.5);
+      margin-bottom: 6px;
+      text-transform: uppercase; letter-spacing: .04em;
+    }
+    .sel-summary .ss-total .val {
+      font-size: clamp(1.15rem, 4vw, 1.45rem);
+      font-weight: 700; color: #fff; line-height: 1.2;
+      font-variant-numeric: tabular-nums;
+      transition: opacity .2s ease;
+    }
+    .sel-summary .ss-total.price .val {
+      direction: ltr; unicode-bidi: isolate; color: #d4e2ff;
+    }
+    .sel-summary .ss-save {
+      margin: 0; padding: 8px 16px 12px;
+      font-size: 12px; font-weight: 600; color: #9fecc0;
+    }
+    .sel-summary .ss-picks-wrap {
+      border-top: 1px solid rgba(255,255,255,.1);
+      background: rgba(0,0,0,.15);
+    }
+    .sel-summary .ss-picks-head {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 10px;
+      padding: 10px 16px 6px;
+      font-size: 10.5px; font-weight: 700;
+      color: rgba(255,255,255,.45);
+      letter-spacing: .03em;
+    }
+    .sel-summary .ss-picks-head .h-price,
+    .sel-summary .ss-picks .pk-price {
+      text-align: end; direction: ltr; unicode-bidi: isolate;
+      min-width: 5.5rem;
+    }
+    .sel-summary .ss-picks-head .h-time,
+    .sel-summary .ss-picks .pk-time {
+      text-align: end;
+      min-width: 5.5rem;
+      white-space: nowrap;
+    }
+    .sel-summary .ss-picks {
+      list-style: none; margin: 0; padding: 0 8px 8px;
+      display: grid; gap: 4px;
+      max-height: 240px; overflow: auto;
+    }
+    .sel-summary .ss-picks li {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 10px; align-items: center;
+      padding: 10px 8px;
+      border-radius: 8px;
+      background: rgba(255,255,255,.05);
+      font-size: 13px;
+      animation: rk-fade-up .35s ease both;
+    }
+    .sel-summary .ss-picks li:nth-child(1) { animation-delay: .02s; }
+    .sel-summary .ss-picks li:nth-child(2) { animation-delay: .05s; }
+    .sel-summary .ss-picks li:nth-child(3) { animation-delay: .08s; }
+    .sel-summary .ss-picks li:nth-child(4) { animation-delay: .11s; }
+    .sel-summary .ss-picks li:nth-child(5) { animation-delay: .14s; }
+    .sel-summary .ss-picks .pk-name {
+      font-weight: 600; color: #fff; line-height: 1.35;
+      min-width: 0;
+    }
+    .sel-summary .ss-picks .pk-time {
+      font-size: 12px; color: rgba(255,255,255,.62); font-weight: 500;
+    }
+    .sel-summary .ss-picks .pk-price {
+      font-weight: 700; color: #d4e2ff; font-size: 13px;
+      white-space: nowrap;
+    }
+    @media (max-width: 479px) {
+      .sel-summary .ss-picks-head,
+      .sel-summary .ss-picks li {
+        grid-template-columns: 1fr auto;
+      }
+      .sel-summary .ss-picks-head .h-time,
+      .sel-summary .ss-picks .pk-time {
+        grid-column: 1;
+        text-align: start; min-width: 0;
+      }
+      .sel-summary .ss-picks .pk-price { grid-row: 1; }
+    }
+    .sel-summary.empty {
+      background: #f4f6fa;
+      color: var(--ink);
+      box-shadow: none;
+      border: 1px dashed var(--line);
+    }
+    .sel-summary.empty .ss-head,
+    .sel-summary.empty .ss-total { background: transparent; border-color: var(--line); }
+    .sel-summary.empty .ss-totals { background: var(--line); }
+    .sel-summary.empty .ss-total { background: #fff; }
+    .sel-summary.empty .ss-mode { color: var(--ink); }
+    .sel-summary.empty .ss-count { color: var(--muted); background: var(--soft); }
+    .sel-summary.empty .ss-total .lbl { color: var(--muted); }
+    .sel-summary.empty .ss-total .val { color: var(--navy); }
+    .sel-summary.empty .ss-picks-wrap,
+    .sel-summary.empty .ss-save { display: none !important; }
+
+    table td.chk { width: 36px; text-align: center; vertical-align: middle; }
+    table input[type="checkbox"], .mod-card input[type="checkbox"] {
+      width: 18px; height: 18px; accent-color: var(--navy); cursor: pointer;
+    }
+    tr.mod-off td { opacity: .45; transition: opacity .25s ease; }
+    .mod-card.off { opacity: .55; }
+
+    .week {
+      margin-top: 12px; padding: 14px 0 0; border-top: 1px solid var(--line);
+      animation: rk-fade-up .4s ease both;
+    }
+    .week:first-of-type { border-top: 0; padding-top: 0; margin-top: 4px; }
+    .week-top {
+      display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px;
+    }
+    @media (min-width: 560px) {
+      .week-top { flex-direction: row; justify-content: space-between; align-items: baseline; gap: 12px; }
+    }
+    .week-top h3 { font-size: 15px; font-weight: 700; color: var(--ink); line-height: 1.35; }
+    .week-top .wm {
+      font-size: 12.5px; color: var(--muted); direction: ltr; unicode-bidi: isolate;
+    }
+    .week-top .wm strong { color: var(--navy); }
+    .week-detail {
+      margin-top: 4px;
+      font-size: 12.5px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+    .week-detail ul {
+      list-style: none;
+      margin: 6px 0 0;
+      padding: 0;
+      display: grid;
+      gap: 4px;
+    }
+    .week-detail li {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 6px 8px;
+      border-radius: 6px;
+      background: var(--soft);
+      font-size: 12.5px;
+      color: var(--body);
+    }
+    .week-detail .wd-name { font-weight: 600; color: var(--ink); min-width: 0; }
+    .week-detail .wd-meta {
+      flex-shrink: 0;
+      color: var(--muted);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .pay {
+      display: grid; grid-template-columns: 52px 1fr; gap: 6px 12px;
+      padding: 12px 0; border-bottom: 1px solid var(--line); align-items: start;
+    }
+    .pay:last-child { border-bottom: 0; }
+    @media (min-width: 480px) { .pay { grid-template-columns: 56px 1fr auto; align-items: center; } }
+    .pay .pct { font-size: 20px; font-weight: 700; color: var(--navy); line-height: 1.2; }
+    .pay .desc { font-size: 13.5px; color: var(--body); }
+    .pay .amt {
+      font-weight: 700; font-variant-numeric: tabular-nums; direction: ltr; unicode-bidi: isolate;
+      white-space: nowrap; grid-column: 2; font-size: 14px;
+    }
+    @media (min-width: 480px) { .pay .amt { grid-column: auto; } }
+
+    .pay-panel {
+      margin-top: 8px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .pay-panel-head {
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+      gap: 10px 16px; padding: 14px 16px;
+      background: linear-gradient(135deg, #071f4a 0%, #0a3578 55%, #0d4a9a 100%);
+      color: #fff;
+    }
+    .pay-panel-head .ph-label {
+      font-size: 11px; letter-spacing: .06em; text-transform: uppercase;
+      opacity: .72; margin-bottom: 4px; font-weight: 600;
+    }
+    .pay-panel-head .ph-title { font-size: 15px; font-weight: 700; line-height: 1.3; }
+    .pay-badge {
+      font-size: 12px; font-weight: 700; padding: 6px 12px; border-radius: 999px;
+      background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.22);
+      white-space: nowrap;
+    }
+    .pay-track {
+      display: flex; height: 4px; background: rgba(8,40,104,.08); margin: 0;
+    }
+    .pay-track span {
+      display: block; height: 100%; background: var(--navy);
+      opacity: .35; transition: opacity .2s;
+    }
+    .pay-track span:first-child { opacity: 1; }
+    .pay-track.single span { opacity: 1; width: 100%; }
+
+    .pay-list { padding: 4px 16px 8px; }
+    .pay-row {
+      display: grid; grid-template-columns: 40px 1fr; gap: 8px 14px;
+      padding: 14px 0; border-bottom: 1px solid var(--line); align-items: start;
+      animation: rk-fade-up .35s ease both;
+    }
+    .pay-row:last-child { border-bottom: 0; }
+    @media (min-width: 520px) {
+      .pay-row { grid-template-columns: 48px 1fr auto; align-items: center; }
+    }
+    .pay-step {
+      width: 40px; height: 40px; border-radius: 10px;
+      display: grid; place-items: center;
+      background: var(--soft); color: var(--navy);
+      font-weight: 700; font-size: 13px; font-variant-numeric: tabular-nums;
+    }
+    .pay-row.hero .pay-step {
+      width: 48px; height: 48px; font-size: 14px;
+      background: var(--navy); color: #fff;
+    }
+    .pay-meta .pm-pct {
+      font-size: 12px; font-weight: 700; color: var(--navy); margin-bottom: 2px;
+    }
+    .pay-meta .pm-desc { font-size: 13.5px; color: var(--body); line-height: 1.4; }
+    .pay-meta .pm-hint {
+      font-size: 12px; color: var(--muted); margin-top: 4px;
+    }
+    .pay-amt {
+      font-weight: 700; font-size: 15px; color: var(--ink);
+      font-variant-numeric: tabular-nums; direction: ltr; unicode-bidi: isolate;
+      white-space: nowrap; grid-column: 2;
+    }
+    @media (min-width: 520px) { .pay-amt { grid-column: auto; font-size: 16px; } }
+    .pay-row.hero .pay-amt { font-size: 18px; color: var(--navy); }
+
+    .pay-foot {
+      display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline;
+      gap: 8px 16px; padding: 12px 16px;
+      background: var(--soft); border-top: 1px solid var(--line);
+      font-size: 13px; color: var(--muted);
+    }
+    .pay-foot strong {
+      font-size: 15px; color: var(--navy); font-variant-numeric: tabular-nums;
+      direction: ltr; unicode-bidi: isolate;
+    }
+    .pay-empty {
+      padding: 28px 16px; text-align: center; color: var(--muted); font-size: 13.5px;
+    }
+
+    .list-grid {
+      display: grid; grid-template-columns: 1fr; gap: 8px; margin-top: 4px;
+    }
+    @media (min-width: 560px) { .list-grid { grid-template-columns: 1fr 1fr; gap: 8px 20px; } }
+    .list-grid li {
+      list-style: none; position: relative; padding-inline-start: 14px;
+      font-size: 13.5px; color: var(--body);
+      animation: rk-fade-in .35s ease both;
+    }
+    .list-grid li::before {
+      content: ""; position: absolute; inset-inline-start: 0; top: 9px;
+      width: 5px; height: 5px; border-radius: 50%; background: var(--navy); opacity: .45;
+    }
+
+    .two-col { display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 12px; }
+    @media (min-width: 560px) { .two-col { grid-template-columns: 1fr 1fr; gap: 16px; } }
+    .box { background: var(--soft); border-radius: 8px; padding: 14px 16px; }
+    .box h4 { font-size: 13px; font-weight: 700; margin-bottom: 8px; }
+    .box.ok h4 { color: var(--ok); }
+    .box.warn h4 { color: var(--warn); }
+    .box ul { list-style: none; }
+    .box li {
+      font-size: 13px; color: var(--body); padding: 4px 0;
+      padding-inline-start: 12px; position: relative;
+    }
+    .box li::before { content: "·"; position: absolute; inset-inline-start: 0; color: var(--muted); }
+
+    .summary {
+      background: var(--navy); color: #fff; border-radius: 10px; padding: 20px 18px;
+    }
+    @media (min-width: 640px) { .summary { padding: 24px 26px; } }
+    .summary h2 { color: #fff; margin-bottom: 16px; }
+    .summary .sec-label { color: rgba(255,255,255,.55); }
+    .sum-rows { display: grid; gap: 12px; }
+    .sum-row {
+      display: grid; grid-template-columns: 1fr; gap: 4px;
+      padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,.15);
+    }
+    @media (min-width: 480px) {
+      .sum-row { grid-template-columns: 1fr auto; gap: 12px; align-items: baseline; }
+      .sum-row .v { text-align: end; }
+    }
+    .sum-row:last-child { border-bottom: 0; padding-bottom: 0; }
+    .sum-row .k { font-size: 12.5px; opacity: .7; }
+    .sum-row .v { font-weight: 700; font-size: 15px; word-break: break-word; }
+    .sum-row.total .v {
+      font-size: clamp(1.35rem, 5vw, 1.75rem); direction: ltr; unicode-bidi: isolate;
+    }
+
+    .sigs { display: grid; grid-template-columns: 1fr; gap: 24px; margin-top: 20px; }
+    @media (min-width: 560px) { .sigs { grid-template-columns: 1fr 1fr; gap: 28px; } }
+    .sig { border-top: 1.5px solid var(--navy); padding-top: 12px; min-height: 90px; }
+    .sig .who { font-size: 12px; color: var(--muted); margin-bottom: 28px; }
+    .sig .name { font-weight: 700; color: var(--navy); font-size: 14px; }
+
+    footer.doc-footer {
+      margin-top: 24px; text-align: center; font-size: 12px; color: var(--muted);
+      line-height: 1.65; padding: 0 8px;
+    }
+    footer.doc-footer img { height: 28px; margin-bottom: 8px; opacity: .85; }
+    footer.doc-footer a { color: var(--navy); text-decoration: none; font-weight: 500; }
+    footer.doc-footer a:hover { text-decoration: underline; }
+
+    .warn-banner {
+      display: none; margin: 10px 0; padding: 10px 12px; border-radius: 8px;
+      background: #fff4f0; border: 1px solid #f0cfc4; color: var(--warn); font-size: 13px;
+    }
+    .warn-banner.show { display: block; }
+
+    @media print {
+      .topbar { position: static; }
+      body { background: #fff; }
+      .page { padding: 0; max-width: none; }
+      .sheet { border: 0; border-radius: 0; padding: 0; }
+      .mod-mobile { display: none !important; }
+      .mod-desktop { display: block !important; }
+      section { break-inside: avoid; }
+      .summary, th, tfoot td, .hero-card.primary {
+        -webkit-print-color-adjust: exact; print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!--
+╔══════════════════════════════════════════════════════════════════╗
+║  CONFIG — عدّل الأسعار من هنا فقط / EDIT PRICES HERE ONLY      ║
+║  Full package (all) = 175,000. Module list prices sum = 200,000. ║
+║  Custom selection = sum of selected MODULE list prices.          ║
+╚══════════════════════════════════════════════════════════════════╝
+-->
+<script>
+const CONFIG = {
+  COMPANY_NAME: "ROOTK",
+  COMPANY_NAME_AR: "روتك",
+  COMPANY_LEGAL_EN: "Rootk Systems",
+  COMPANY_LEGAL_AR: "روتك سيستمز",
+  COMPANY_WEBSITE: "www.rootk-eg.com",
+  COMPANY_PHONE: "01210888007",
+  COMPANY_EMAIL: "hello@rootksystems.com",
+  COMPANY_CONTACT: "www.rootk-eg.com  ·  01210888007  ·  hello@rootksystems.com",
+  COMPANY_ADDRESS: "Office 9, 60 Hisham Labib St., off Mostafa El-Nahas, Nasr City, Cairo.",
+  COMPANY_ADDRESS_AR: "مكتب ٩، ٦٠ شارع هشام لبيب، متفرع من مصطفى النحاس، مدينة نصر، القاهرة",
+
+  CLIENT_NAME: "Crown",
+  CLIENT_NAME_AR: "Crown",
+
+  PROJECT_NAME: "Custom Engineering ERP Platform",
+  PROJECT_NAME_AR: "منصة ERP هندسية مخصصة",
+
+  QUOTATION_NUMBER: "QT-ERP-2026-036",
+  QUOTATION_DATE: "05 September 2026",
+  QUOTATION_DATE_AR: "٥ سبتمبر ٢٠٢٦",
+  VALIDITY_DAYS: 14,
+  CURRENCY: "EGP",
+
+  /* ★ Commercial: full package = 175,000 | module list sum = 200,000 */
+  PACKAGE_ALL_PRICE: 175000,
+  DURATION_TOTAL_MONTHS: 3,
+  DURATION_TOTAL_WEEKS: 12,
+  /* Extra testing: full package = 1 month; custom = 1/3 of selected implementation time */
+  TEST_MONTHS: 1,
+  TEST_WEEKS: 4,
+  TEST_RATIO: 1 / 3,
+  DURATION_LABEL_EN: "3 Months / 12 Weeks + 1 Test Month",
+  DURATION_LABEL_AR: "٣ أشهر / ١٢ أسبوعًا + شهر اختبار",
+  DURATION_SHORT_EN: "3 Months / 12 Weeks + 1 Test Month",
+  DURATION_SHORT_AR: "٣ أشهر / ١٢ أسبوعًا + شهر اختبار",
+
+  WARRANTY_PERIOD: "12 Months — Free",
+  WARRANTY_PERIOD_AR: "١٢ شهرًا — مجانًا",
+
+  /* 26 modules — list sum = 200,000; selecting ALL = package 175,000
+     duration_days sum = 90 (3 months). period = fixed duration, not a week range. */
+  MODULES: [
+    { id: 1,  name_en: "CRM", name_ar: "إدارة علاقات العملاء (CRM)", price: 14000, duration_days: 6, period_en: "6 Days", period_ar: "٦ أيام", week_from: 3, week_to: 3 },
+    { id: 2,  name_en: "Sales & Client Commercial", name_ar: "المبيعات والتجاري للعملاء", price: 8000, duration_days: 4, period_en: "4 Days", period_ar: "٤ أيام", week_from: 4, week_to: 4 },
+    { id: 3,  name_en: "Projects & PMO", name_ar: "المشاريع ومكتب إدارة المشاريع", price: 22000, duration_days: 10, period_en: "10 Days", period_ar: "١٠ أيام", week_from: 6, week_to: 6 },
+    { id: 4,  name_en: "Procurement", name_ar: "المشتريات", price: 14000, duration_days: 6, period_en: "6 Days", period_ar: "٦ أيام", week_from: 8, week_to: 8 },
+    { id: 5,  name_en: "Supplier Management", name_ar: "إدارة الموردين", price: 6000, duration_days: 3, period_en: "3 Days", period_ar: "٣ أيام", week_from: 9, week_to: 9 },
+    { id: 6,  name_en: "Inventory", name_ar: "المخزون", price: 6000, duration_days: 3, period_en: "3 Days", period_ar: "٣ أيام", week_from: 9, week_to: 9 },
+    { id: 7,  name_en: "Warehouses", name_ar: "المستودعات", price: 5000, duration_days: 2, period_en: "2 Days", period_ar: "يومان", week_from: 9, week_to: 9 },
+    { id: 8,  name_en: "Fixed Assets", name_ar: "الأصول الثابتة", price: 5000, duration_days: 2, period_en: "2 Days", period_ar: "يومان", week_from: 9, week_to: 9 },
+    { id: 9,  name_en: "Finance & Accounting", name_ar: "المالية والمحاسبة", price: 28000, duration_days: 13, period_en: "13 Days", period_ar: "١٣ يومًا", week_from: 10, week_to: 10 },
+    { id: 10, name_en: "Accounts Receivable", name_ar: "الحسابات المدينة", price: 5000, duration_days: 2, period_en: "2 Days", period_ar: "يومان", week_from: 10, week_to: 10 },
+    { id: 11, name_en: "Accounts Payable", name_ar: "الحسابات الدائنة", price: 5000, duration_days: 2, period_en: "2 Days", period_ar: "يومان", week_from: 10, week_to: 10 },
+    { id: 12, name_en: "Cash & Bank", name_ar: "النقدية والبنوك", price: 4000, duration_days: 2, period_en: "2 Days", period_ar: "يومان", week_from: 10, week_to: 10 },
+    { id: 13, name_en: "Budget Management", name_ar: "إدارة الميزانية", price: 5000, duration_days: 2, period_en: "2 Days", period_ar: "يومان", week_from: 10, week_to: 10 },
+    { id: 14, name_en: "Human Resources", name_ar: "الموارد البشرية", price: 14000, duration_days: 6, period_en: "6 Days", period_ar: "٦ أيام", week_from: 11, week_to: 11 },
+    { id: 15, name_en: "Attendance", name_ar: "الحضور", price: 5000, duration_days: 2, period_en: "2 Days", period_ar: "يومان", week_from: 11, week_to: 11 },
+    { id: 16, name_en: "Leave Management", name_ar: "إدارة الإجازات", price: 3000, duration_days: 1, period_en: "1 Day", period_ar: "يوم واحد", week_from: 11, week_to: 11 },
+    { id: 17, name_en: "Payroll", name_ar: "الرواتب", price: 10000, duration_days: 5, period_en: "5 Days", period_ar: "٥ أيام", week_from: 11, week_to: 11 },
+    { id: 18, name_en: "Expense Management", name_ar: "إدارة المصروفات", price: 4000, duration_days: 2, period_en: "2 Days", period_ar: "يومان", week_from: 11, week_to: 11 },
+    { id: 19, name_en: "Performance Management", name_ar: "إدارة الأداء", price: 4000, duration_days: 2, period_en: "2 Days", period_ar: "يومان", week_from: 11, week_to: 11 },
+    { id: 20, name_en: "Quality Management / QA-QC", name_ar: "إدارة الجودة / QA-QC", price: 10000, duration_days: 5, period_en: "5 Days", period_ar: "٥ أيام", week_from: 7, week_to: 7 },
+    { id: 21, name_en: "Internal Support", name_ar: "الدعم الداخلي", price: 3000, duration_days: 1, period_en: "1 Day", period_ar: "يوم واحد", week_from: 12, week_to: 12 },
+    { id: 22, name_en: "Asset Maintenance", name_ar: "صيانة الأصول", price: 3000, duration_days: 1, period_en: "1 Day", period_ar: "يوم واحد", week_from: 9, week_to: 9 },
+    { id: 23, name_en: "Reporting", name_ar: "التقارير", price: 4000, duration_days: 2, period_en: "2 Days", period_ar: "يومان", week_from: 12, week_to: 12 },
+    { id: 24, name_en: "Dashboards & KPIs", name_ar: "لوحات المعلومات ومؤشرات الأداء", price: 5000, duration_days: 2, period_en: "2 Days", period_ar: "يومان", week_from: 12, week_to: 12 },
+    { id: 25, name_en: "Workflow & Approval Management", name_ar: "إدارة سير العمل والموافقات", price: 6000, duration_days: 3, period_en: "3 Days", period_ar: "٣ أيام", week_from: 12, week_to: 12 },
+    { id: 26, name_en: "User & Permission Management", name_ar: "إدارة المستخدمين والصلاحيات", price: 2000, duration_days: 1, period_en: "1 Day", period_ar: "يوم واحد", week_from: 5, week_to: 5 }
+  ],
+
+  /* 12-week plan — values sum = PACKAGE_ALL_PRICE (175,000) */
+  WEEK_PLAN: [
+    { id: 1, weeks_en: "Week 1–2", weeks_ar: "الأسبوع ١–٢", week_from: 1, week_to: 2, value: 17500, always: true,
+      title_en: "Discovery & Business Analysis", title_ar: "الاكتشاف وتحليل الأعمال" },
+    { id: 2, weeks_en: "Week 3–5", weeks_ar: "الأسابيع ٣–٥", week_from: 3, week_to: 5, value: 35000,
+      title_en: "Core ERP & CRM", title_ar: "نظام ERP الأساسي وCRM" },
+    { id: 3, weeks_en: "Week 6–7", weeks_ar: "الأسابيع ٦–٧", week_from: 6, week_to: 7, value: 43750,
+      title_en: "Projects, Engineering & Commercial", title_ar: "المشاريع والهندسة والتجاري" },
+    { id: 4, weeks_en: "Week 8–9", weeks_ar: "الأسابيع ٨–٩", week_from: 8, week_to: 9, value: 21875,
+      title_en: "Procurement, Inventory & Assets", title_ar: "المشتريات والمخزون والأصول" },
+    { id: 5, weeks_en: "Week 10", weeks_ar: "الأسبوع ١٠", week_from: 10, week_to: 10, value: 26250,
+      title_en: "Finance & Accounting", title_ar: "المالية والمحاسبة" },
+    { id: 6, weeks_en: "Week 11", weeks_ar: "الأسبوع ١١", week_from: 11, week_to: 11, value: 13125,
+      title_en: "Human Resources", title_ar: "الموارد البشرية" },
+    { id: 7, weeks_en: "Week 12–15", weeks_ar: "الأسابيع ١٢–١٥", week_from: 12, week_to: 15, value: 17500, always: true,
+      title_en: "UAT, 1-Month Testing, Training & Go-Live", title_ar: "اختبار القبول وشهر الاختبار والتدريب والتشغيل" }
+  ],
+
+  PAYMENT_TERMS: [
+    { percent: 40, label_en: "Project Kickoff / Contract Signing", label_ar: "بدء المشروع / توقيع العقد" },
+    { percent: 30, label_en: "Core System & Major Modules Delivery", label_ar: "تسليم النظام الأساسي والوحدات الرئيسية" },
+    { percent: 20, label_en: "UAT & Final Acceptance", label_ar: "اختبار القبول والاعتماد النهائي" },
+    { percent: 10, label_en: "Go-Live", label_ar: "التشغيل الفعلي" }
+  ],
+
+  LOGO_SRC: "logo.png",
+  DEFAULT_LANG: "en"
+};
+
+const DELIVERABLES_CORE = [
+  { en: "Business Requirements Document", ar: "وثيقة متطلبات الأعمال" },
+  { en: "Process Mapping", ar: "تخطيط العمليات" },
+  { en: "Data Migration Templates", ar: "قوالب ترحيل البيانات" },
+  { en: "UAT Environment", ar: "بيئة UAT" },
+  { en: "Production Environment", ar: "بيئة الإنتاج" },
+  { en: "User Training", ar: "تدريب المستخدمين" },
+  { en: "Administrator Training", ar: "تدريب المسؤولين" },
+  { en: "User Documentation", ar: "توثيق المستخدم" },
+  { en: "Technical Documentation", ar: "التوثيق الفني" },
+  { en: "Go-Live Support", ar: "دعم التشغيل الفعلي" }
+];
+
+const DELIVERABLES_PACKAGE = [
+  { en: "Configured ERP Platform", ar: "منصة ERP مهيأة" },
+  { en: "Custom Modules / Custom Functionality", ar: "وحدات / وظائف مخصصة" },
+  { en: "Integrated Database", ar: "قاعدة بيانات متكاملة" },
+  { en: "Print Formats", ar: "تنسيقات الطباعة" },
+  { en: "Deployment Documentation", ar: "توثيق النشر" },
+  { en: "Custom Source Code", ar: "الشفرة المصدرية المخصصة" }
+];
+
+const DELIVERABLES_EXTRAS = [
+  { en: "Approval Workflows", ar: "مسارات عمل الموافقات", modules: [25] },
+  { en: "User Roles & Permissions", ar: "أدوار المستخدمين والصلاحيات", modules: [26] },
+  { en: "Operational Reports", ar: "التقارير التشغيلية", modules: [23] },
+  { en: "Management Dashboards", ar: "لوحات معلومات الإدارة", modules: [24] }
+];
+
+const SCOPE_GROUPS = {
+  en: [
+    { title: "CRM", items: ["Client & Contact Management","Lead Management","Opportunity / Deal Management","Tender & Bid Management","Proposal Management"] },
+    { title: "Projects", items: ["Project Management & PMO","WBS","Task Management","Project Monitoring","Project Control Registers","Project Financial Control"] },
+    { title: "Engineering", items: ["Resource Planning","Timesheets","Engineering Deliverables","Revision Control","Document Control","QA/QC"] },
+    { title: "Commercial", items: ["Client Commercial Management","Contract Management","Commercial / QS","Billing","Variations","Claims"] },
+    { title: "HR", items: ["HR","Attendance","Leave","Payroll","Performance","Employee Expenses"] },
+    { title: "Procurement", items: ["Procurement","Supplier Management","Subconsultant Management","Inventory","Warehouses","Fixed Assets","Maintenance"] },
+    { title: "Finance", items: ["Finance & Accounting","AR","AP","Cash & Bank","Budget Management","Project Financial Control"] },
+    { title: "Platform", items: ["Workflow & Approval","Notifications","Audit Trail","Reporting","Dashboards","User & Permission Management","Integrations","Employee / Client / Supplier Portals"] }
+  ],
+  ar: [
+    { title: "CRM", items: ["إدارة العملاء وجهات الاتصال","إدارة العملاء المحتملين","إدارة الفرص / الصفقات","إدارة المناقصات والعطاءات","إدارة العروض"] },
+    { title: "المشاريع", items: ["إدارة المشاريع ومكتب PMO","WBS","إدارة المهام","مراقبة المشروع","سجلات التحكم","الرقابة المالية على المشروع"] },
+    { title: "الهندسة", items: ["تخطيط الموارد","كشوف الساعات","المخرجات الهندسية","التحكم في المراجعات","التحكم في المستندات","QA/QC"] },
+    { title: "التجاري", items: ["الإدارة التجارية للعملاء","إدارة العقود","التجاري / QS","الفوترة","التغييرات","المطالبات"] },
+    { title: "الموارد البشرية", items: ["الموارد البشرية","الحضور","الإجازات","الرواتب","الأداء","مصروفات الموظفين"] },
+    { title: "المشتريات", items: ["المشتريات","إدارة الموردين","الاستشاريون الفرعيون","المخزون","المستودعات","الأصول الثابتة","الصيانة"] },
+    { title: "المالية", items: ["المالية والمحاسبة","الحسابات المدينة","الحسابات الدائنة","النقدية والبنوك","الميزانية","الرقابة المالية على المشروع"] },
+    { title: "المنصة", items: ["سير العمل والموافقات","الإشعارات","سجل التدقيق","التقارير","لوحات المعلومات","المستخدمون والصلاحيات","التكاملات","بوابات الموظف/العميل/المورد"] }
+  ]
+};
+
+const COPY = {
+  ar: {
+    docType: "عرض سعر تجاري",
+    client: "العميل",
+    quoteNo: "رقم العرض",
+    date: "التاريخ",
+    validityCurrency: "الصلاحية · العملة",
+    days: "يومًا",
+    totalLabel: "إجمالي قيمة المشروع",
+    durationLabel: "مدة التنفيذ",
+    s02: "ملخص النطاق",
+    s03: "تسعير الوحدات",
+    s04: "خطة التنفيذ",
+    s05: "جدول الدفعات",
+    s06: "المخرجات",
+    s07: "الضمان والدعم",
+    s08: "الاستثناءات والافتراضات",
+    s09: "الملخص التجاري",
+    auth: "الاعتماد",
+    tocTitle: "محتويات العرض",
+    module: "الوحدة",
+    price: "السعر",
+    period: "الفترة",
+    status: "الحالة",
+    selected: "مختار",
+    grandTotal: "الإجمالي",
+    packageTitle: "باقة كاملة",
+    customTitle: "وحدات مختارة",
+    selectAll: "اختيار الكل",
+    clearAll: "إلغاء الكل",
+    selectedCount: "وحدة",
+    metricModules: "الوحدات",
+    metricDuration: "المدة",
+    metricPrice: "التكلفة",
+    savings: "توفير",
+    pickDuration: "المدة",
+    pickPrice: "السعر",
+    summaryPicks: "الوحدات المختارة",
+    summaryTotal: "إجمالي الاختيار",
+    modulesCol: "الوحدة",
+    scope: "ملخص النطاق",
+    months: "أشهر",
+    month: "شهر",
+    weeks: "أسابيع",
+    payMode: "دفعات مرحلية",
+    warrantyIncTitle: "يشمل",
+    warrantyExcTitle: "لا يشمل",
+    warrantyInc: ["إصلاح عيوب النطاق المعتمد","دعم فني للمستخدمين","تعديلات تشغيلية بسيطة"],
+    warrantyExc: ["ميزات جديدة خارج النطاق","وحدات جديدة","تغييرات جوهرية في المتطلبات"],
+    assumptions: [
+      "المتطلبات النهائية تُعتمد في وثيقة المتطلبات.",
+      "أي بند خارج النطاق المعتمد يُسعَّر كطلب تغيير.",
+      "تراخيص الأطراف الثالثة مستثناة ما لم تُذكر صراحة.",
+      "الأجهزة والخوادم والاستضافة مستثناة ما لم تُدرج في العقد.",
+      "ترحيل المعاملات التاريخية خارج المتفق عليه يُقدَّر منفصلاً.",
+      "البنية التحتية والاستضافة مسؤولية العميل ما لم يُتعاقد خلاف ذلك."
+    ],
+    authText: "التوقيع إقرار باستلام العرض والمتابعة بعقد رسمي.",
+    forClient: "عن العميل",
+    forSupplier: "عن المورّد",
+    project: "المشروع",
+    modulesLabel: "الوحدات",
+    warranty: "الضمان",
+    validity: "الصلاحية",
+    confidential: "سرّي",
+    planDiscovery: "الاكتشاف وتحليل الأعمال",
+    planDelivery: "تسليم الوحدات المختارة",
+    planGoLive: "اختبار القبول وشهر الاختبار والتدريب والتشغيل",
+    planConfigured: "تهيئة وتسليم"
+  },
+  en: {
+    docType: "Commercial Quotation",
+    client: "Prepared For",
+    quoteNo: "Quotation No.",
+    date: "Date",
+    validityCurrency: "Validity · Currency",
+    days: "Days",
+    totalLabel: "Total Project Value",
+    durationLabel: "Implementation Duration",
+    s02: "Scope Summary",
+    s03: "Module Pricing",
+    s04: "Implementation Plan",
+    s05: "Payment Schedule",
+    s06: "Deliverables",
+    s07: "Warranty & Support",
+    s08: "Exclusions & Assumptions",
+    s09: "Commercial Summary",
+    auth: "Authorization",
+    tocTitle: "Contents",
+    module: "Module",
+    price: "Price",
+    period: "Timeline",
+    status: "Status",
+    selected: "Selected",
+    grandTotal: "Total",
+    packageTitle: "Full Package",
+    customTitle: "Selected Modules",
+    selectAll: "Select all",
+    clearAll: "Clear all",
+    selectedCount: "modules",
+    metricModules: "Modules",
+    metricDuration: "Duration",
+    metricPrice: "Cost",
+    savings: "Savings",
+    pickDuration: "Timeline",
+    pickPrice: "Price",
+    summaryPicks: "Selected modules",
+    summaryTotal: "Selection total",
+    modulesCol: "Module",
+    scope: "Scope Summary",
+    months: "months",
+    month: "month",
+    weeks: "weeks",
+    payMode: "Milestone payments",
+    warrantyIncTitle: "Includes",
+    warrantyExcTitle: "Excludes",
+    warrantyInc: ["Defect fixes within approved scope","User technical support","Minor operational adjustments"],
+    warrantyExc: ["New features outside scope","New modules","Major requirement changes"],
+    assumptions: [
+      "Final requirements are confirmed in the approved BRD.",
+      "Anything outside approved scope is priced as a Change Request.",
+      "Third-party licenses are excluded unless stated.",
+      "Hardware, servers, and hosting are excluded unless contracted.",
+      "Historical transaction migration beyond agreed data is estimated separately.",
+      "Infrastructure and hosting are Client’s responsibility unless contracted otherwise."
+    ],
+    authText: "Signature acknowledges receipt of this quotation and agreement to proceed under a formal contract.",
+    forClient: "For the Client",
+    forSupplier: "For the Supplier",
+    project: "Project",
+    modulesLabel: "Modules",
+    warranty: "Warranty",
+    validity: "Validity",
+    confidential: "Confidential",
+    planDiscovery: "Discovery & Business Analysis",
+    planDelivery: "Selected Modules Delivery",
+    planGoLive: "UAT, 1-Month Testing, Training & Go-Live",
+    planConfigured: "Configured & delivered"
+  }
+};
+</script>
+
+<header class="topbar">
+  <div class="topbar-brand">
+    <span class="logo-chip">
+      <img id="bar-logo" src="logo.png" alt="ROOTK" />
+    </span>
+    <span id="bar-company">Rootk Systems</span>
+  </div>
+  <div class="lang-toggle" role="group" aria-label="Language">
+    <button type="button" id="btn-ar" aria-pressed="false">عربي</button>
+    <button type="button" id="btn-en" aria-pressed="true">EN</button>
+  </div>
+</header>
+
+<main class="page">
+  <article class="sheet">
+
+    <header class="doc-header">
+      <img id="brand-logo" src="logo.png" alt="Logo" />
+      <div class="company" id="header-company">روتك · ROOTK</div>
+      <div class="doc-type" id="doc-type">عرض سعر تجاري</div>
+      <h1 id="project-title">منصة ERP هندسية مخصصة</h1>
+
+      <div class="hero-totals">
+        <div class="hero-card primary">
+          <div class="lbl" id="hero-total-lbl">إجمالي قيمة المشروع</div>
+          <div class="val" id="hero-total">175,000 EGP</div>
+        </div>
+        <div class="hero-card">
+          <div class="lbl" id="hero-dur-lbl">مدة التنفيذ</div>
+          <div class="val" id="hero-dur">٣ أشهر / ١٢ أسبوعًا</div>
+        </div>
+      </div>
+
+      <dl class="meta">
+        <div>
+          <dt id="lbl-client">العميل</dt>
+          <dd id="val-client">[اسم العميل]</dd>
+        </div>
+        <div>
+          <dt id="lbl-qno">رقم العرض</dt>
+          <dd id="val-qno">QT-ERP-2026-001</dd>
+        </div>
+        <div>
+          <dt id="lbl-date">التاريخ</dt>
+          <dd id="val-date">٥ سبتمبر ٢٠٢٦</dd>
+        </div>
+        <div>
+          <dt id="lbl-valid">الصلاحية · العملة</dt>
+          <dd id="val-valid">14 يومًا · EGP</dd>
+        </div>
+      </dl>
+    </header>
+
+    <div class="warn-banner" id="math-warn"></div>
+
+    <nav class="toc" id="toc" aria-label="Contents">
+      <div class="toc-title" id="toc-title">محتويات العرض</div>
+      <ol class="toc-list">
+        <li><a href="#sec-pricing"><span class="toc-num">01</span><span class="toc-label" data-toc="s03">تسعير الوحدات</span></a></li>
+        <li><a href="#sec-plan"><span class="toc-num">02</span><span class="toc-label" data-toc="s04">خطة التنفيذ</span></a></li>
+        <li><a href="#sec-payments"><span class="toc-num">03</span><span class="toc-label" data-toc="s05">جدول الدفعات</span></a></li>
+        <li><a href="#sec-deliverables"><span class="toc-num">04</span><span class="toc-label" data-toc="s06">المخرجات</span></a></li>
+        <li><a href="#sec-warranty"><span class="toc-num">05</span><span class="toc-label" data-toc="s07">الضمان والدعم</span></a></li>
+        <li><a href="#sec-assumptions"><span class="toc-num">06</span><span class="toc-label" data-toc="s08">الاستثناءات والافتراضات</span></a></li>
+        <li><a href="#sec-summary"><span class="toc-num">07</span><span class="toc-label" data-toc="s09">الملخص التجاري</span></a></li>
+      </ol>
+    </nav>
+
+    <section id="sec-pricing">
+      <div class="sec-label">01</div>
+      <h2 id="h-s03">تسعير الوحدات</h2>
+
+      <div class="pricing-mode" id="pricing-mode">
+        <div class="mode-card active" id="mode-package" role="button" tabindex="0">
+          <div class="mt" id="mode-package-title">باقة كاملة</div>
+          <div class="mp" id="mode-package-price">175,000 EGP</div>
+        </div>
+        <div class="mode-card" id="mode-custom" role="button" tabindex="0">
+          <div class="mt" id="mode-custom-title">وحدات مختارة</div>
+          <div class="mp" id="mode-custom-price">—</div>
+        </div>
+      </div>
+
+      <div class="sel-bar">
+        <div class="info" id="sel-info"></div>
+        <div class="actions">
+          <button type="button" class="primary" id="btn-select-all"></button>
+          <button type="button" id="btn-clear-all"></button>
+        </div>
+      </div>
+
+      <aside class="sel-summary" id="sel-summary" aria-live="polite">
+        <div class="sel-summary-inner">
+          <div class="ss-head">
+            <div class="ss-mode" id="ss-mode">باقة كاملة</div>
+            <div class="ss-count" id="ss-count">26 / 26</div>
+          </div>
+          <div class="ss-totals">
+            <div class="ss-total">
+              <div class="lbl" id="ss-dur-lbl">المدة</div>
+              <div class="val" id="ss-dur-val">3 Months / 12 Weeks</div>
+            </div>
+            <div class="ss-total price">
+              <div class="lbl" id="ss-price-lbl">التكلفة</div>
+              <div class="val" id="ss-price-val">175,000 EGP</div>
+            </div>
+          </div>
+          <div class="ss-save" id="ss-save" hidden></div>
+          <div class="ss-picks-wrap" id="ss-picks-wrap" hidden>
+            <div class="ss-picks-head">
+              <span id="ss-h-mod">الوحدة</span>
+              <span class="h-time" id="ss-h-time">المدة</span>
+              <span class="h-price" id="ss-h-price">السعر</span>
+            </div>
+            <ul class="ss-picks" id="ss-picks"></ul>
+          </div>
+        </div>
+      </aside>
+
+      <div class="mod-mobile" id="modules-mobile"></div>
+      <div class="mod-desktop table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th class="chk"></th>
+              <th id="th-mod">الوحدة</th>
+              <th id="th-period">الفترة</th>
+              <th id="th-status">الحالة</th>
+              <th class="num" id="th-price">السعر</th>
+            </tr>
+          </thead>
+          <tbody id="modules-body"></tbody>
+          <tfoot>
+            <tr>
+              <td colspan="4" id="td-total-label">الإجمالي</td>
+              <td class="num" id="modules-total">175,000 EGP</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </section>
+
+    <section id="sec-plan">
+      <div class="sec-label">02</div>
+      <h2 id="h-s04">خطة التنفيذ</h2>
+      <div id="weeks"></div>
+    </section>
+
+    <section id="sec-payments">
+      <div class="sec-label">03</div>
+      <h2 id="h-s05">جدول الدفعات</h2>
+      <div id="payments"></div>
+    </section>
+
+    <section id="sec-deliverables">
+      <div class="sec-label">04</div>
+      <h2 id="h-s06">المخرجات</h2>
+      <ul class="list-grid" id="deliverables"></ul>
+    </section>
+
+    <section id="sec-warranty">
+      <div class="sec-label">05</div>
+      <h2 id="h-s07">الضمان والدعم</h2>
+      <div class="two-col">
+        <div class="box ok">
+          <h4 id="h-included"></h4>
+          <ul id="list-included"></ul>
+        </div>
+        <div class="box warn">
+          <h4 id="h-excluded"></h4>
+          <ul id="list-excluded"></ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="sec-assumptions">
+      <div class="sec-label">06</div>
+      <h2 id="h-s08">الاستثناءات والافتراضات</h2>
+      <ul class="list-grid" id="assumptions"></ul>
+    </section>
+
+    <section id="sec-summary" style="border:0;padding-bottom:0;margin-bottom:0">
+      <div class="summary">
+        <div class="sec-label">07</div>
+        <h2 id="h-s09">الملخص التجاري</h2>
+        <div class="sum-rows">
+          <div class="sum-row">
+            <div class="k" id="k-project">المشروع</div>
+            <div class="v" id="v-project"></div>
+          </div>
+          <div class="sum-row">
+            <div class="k" id="k-modules">الوحدات</div>
+            <div class="v" id="v-modules"></div>
+          </div>
+          <div class="sum-row">
+            <div class="k" id="k-impl">مدة التنفيذ</div>
+            <div class="v" id="v-impl"></div>
+          </div>
+          <div class="sum-row total">
+            <div class="k" id="k-invest">إجمالي قيمة المشروع</div>
+            <div class="v" id="summary-total">175,000 EGP</div>
+          </div>
+          <div class="sum-row">
+            <div class="k" id="k-warranty">الضمان</div>
+            <div class="v" id="v-warranty"></div>
+          </div>
+          <div class="sum-row">
+            <div class="k" id="k-validity">الصلاحية</div>
+            <div class="v" id="v-validity"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </article>
+
+  <footer class="doc-footer">
+    <img id="footer-logo" src="logo.png" alt="" />
+    <div id="footer-text"></div>
+  </footer>
+</main>
+
+<script>
+const LANG_KEY = "erp_quotation_lang";
+const SEL_KEY = "erp_quotation_selected_modules";
+
+/** Selected module ids — default = all (package mode) */
+let selectedIds = new Set(CONFIG.MODULES.map((m) => m.id));
+
+function money(n) {
+  return Number(n || 0).toLocaleString("en-EG") + " " + CONFIG.CURRENCY;
+}
+function listPriceSum() {
+  return CONFIG.MODULES.reduce((s, m) => s + Number(m.price || 0), 0);
+}
+function selectedListSum() {
+  return CONFIG.MODULES
+    .filter((m) => selectedIds.has(m.id))
+    .reduce((s, m) => s + Number(m.price || 0), 0);
+}
+function isPackageMode() {
+  return selectedIds.size === CONFIG.MODULES.length;
+}
+/** Contract total: all modules = package 175k; else sum of selected list prices */
+function contractTotal() {
+  if (selectedIds.size === 0) return 0;
+  if (isPackageMode()) return CONFIG.PACKAGE_ALL_PRICE;
+  return selectedListSum();
+}
+function packageSavings() {
+  return Math.max(0, listPriceSum() - CONFIG.PACKAGE_ALL_PRICE);
+}
+function weeksBaseSum(phases) {
+  const list = phases || CONFIG.WEEK_PLAN;
+  return list.reduce((s, w) => s + Number(w.value || 0), 0);
+}
+
+function phaseOverlapsSelection(phase) {
+  return CONFIG.MODULES.some((m) =>
+    selectedIds.has(m.id) &&
+    Number(m.week_from) <= Number(phase.week_to) &&
+    Number(m.week_to) >= Number(phase.week_from)
+  );
+}
+
+/** Phases visible for current selection (Discovery + Go-Live always when anything selected) */
+function activeWeekPhases() {
+  if (selectedIds.size === 0) return [];
+  if (isPackageMode()) return CONFIG.WEEK_PLAN.slice();
+  return CONFIG.WEEK_PLAN.filter((w) => w.always || phaseOverlapsSelection(w));
+}
+
+/** Scale phase values so they sum exactly to contract total */
+function allocateWeekAmounts(phases, total) {
+  const base = weeksBaseSum(phases) || 1;
+  const amounts = [];
+  let allocated = 0;
+  phases.forEach((w, i) => {
+    if (i === phases.length - 1) {
+      amounts.push(Math.max(0, total - allocated));
+    } else {
+      const amt = Math.round((Number(w.value || 0) / base) * total);
+      amounts.push(amt);
+      allocated += amt;
+    }
+  });
+  return amounts;
+}
+
+function activeDeliverables() {
+  if (selectedIds.size === 0) return [];
+  const L = currentLang();
+  const items = DELIVERABLES_CORE.map((d) => (L === "ar" ? d.ar : d.en));
+
+  if (isPackageMode()) {
+    DELIVERABLES_PACKAGE.forEach((d) => items.push(L === "ar" ? d.ar : d.en));
+  } else {
+    const prefix = L === "ar" ? COPY.ar.planConfigured : COPY.en.planConfigured;
+    CONFIG.MODULES.filter((m) => selectedIds.has(m.id)).forEach((m) => {
+      items.push(`${prefix}: ${L === "ar" ? m.name_ar : m.name_en}`);
+    });
+  }
+
+  DELIVERABLES_EXTRAS.forEach((d) => {
+    if (d.modules.some((id) => selectedIds.has(id))) {
+      items.push(L === "ar" ? d.ar : d.en);
+    }
+  });
+
+  return items;
+}
+
+function renderDeliverables() {
+  const el = document.getElementById("deliverables");
+  if (!el) return;
+  const items = activeDeliverables();
+  if (!items.length) {
+    el.innerHTML = `<li>—</li>`;
+    return;
+  }
+  el.innerHTML = items.map((text, i) =>
+    `<li style="animation-delay:${Math.min(i, 8) * 0.03}s">${text}</li>`
+  ).join("");
+}
+function currentLang() {
+  return document.documentElement.lang === "en" ? "en" : "ar";
+}
+function t() { return COPY[currentLang()]; }
+
+function persistSelection() {
+  try {
+    localStorage.setItem(SEL_KEY, JSON.stringify([...selectedIds]));
+  } catch (_) {}
+}
+function loadSelection() {
+  try {
+    const raw = localStorage.getItem(SEL_KEY);
+    if (!raw) return;
+    const arr = JSON.parse(raw);
+    if (!Array.isArray(arr)) return;
+    const valid = new Set(CONFIG.MODULES.map((m) => m.id));
+    selectedIds = new Set(arr.filter((id) => valid.has(id)));
+  } catch (_) {}
+}
+
+function setLang(lang) {
+  const L = lang === "en" ? "en" : "ar";
+  document.documentElement.lang = L;
+  document.documentElement.dir = L === "ar" ? "rtl" : "ltr";
+  document.getElementById("btn-ar").setAttribute("aria-pressed", L === "ar" ? "true" : "false");
+  document.getElementById("btn-en").setAttribute("aria-pressed", L === "en" ? "true" : "false");
+  try { localStorage.setItem(LANG_KEY, L); } catch (_) {}
+  renderAll();
+}
+
+function fillList(el, items) {
+  el.innerHTML = items.map((x) => `<li>${x}</li>`).join("");
+}
+
+function selectAll() {
+  selectedIds = new Set(CONFIG.MODULES.map((m) => m.id));
+  persistSelection();
+  renderAll();
+}
+function clearAll() {
+  selectedIds = new Set();
+  persistSelection();
+  renderAll();
+}
+function toggleModule(id, on) {
+  if (on) selectedIds.add(id);
+  else selectedIds.delete(id);
+  persistSelection();
+  renderAll();
+}
+
+function renderStatic() {
+  const L = currentLang();
+  const c = t();
+  const company = L === "ar" ? CONFIG.COMPANY_NAME_AR : CONFIG.COMPANY_NAME;
+  const client = L === "ar" ? CONFIG.CLIENT_NAME_AR : CONFIG.CLIENT_NAME;
+  const project = L === "ar" ? CONFIG.PROJECT_NAME_AR : CONFIG.PROJECT_NAME;
+  const date = L === "ar" ? CONFIG.QUOTATION_DATE_AR : CONFIG.QUOTATION_DATE;
+  const warranty = L === "ar" ? CONFIG.WARRANTY_PERIOD_AR : CONFIG.WARRANTY_PERIOD;
+  const durEst = estimateDuration();
+  const durationShort = formatDuration(durEst, L);
+  const address = L === "ar" ? CONFIG.COMPANY_ADDRESS_AR : CONFIG.COMPANY_ADDRESS;
+  const total = money(contractTotal());
+
+  document.getElementById("bar-company").textContent = CONFIG.COMPANY_LEGAL_EN;
+  document.getElementById("header-company").textContent =
+    L === "ar" ? `${CONFIG.COMPANY_NAME_AR} · ${CONFIG.COMPANY_NAME}` : `${CONFIG.COMPANY_NAME} · ${CONFIG.COMPANY_NAME_AR}`;
+  document.getElementById("doc-type").textContent = c.docType;
+  document.getElementById("project-title").textContent = project;
+
+  document.getElementById("hero-total-lbl").textContent = c.totalLabel;
+  document.getElementById("hero-total").textContent = total;
+  document.getElementById("hero-dur-lbl").textContent = c.durationLabel;
+  document.getElementById("hero-dur").textContent = durationShort;
+
+  document.getElementById("lbl-client").textContent = c.client;
+  document.getElementById("val-client").textContent = client;
+  document.getElementById("lbl-qno").textContent = c.quoteNo;
+  document.getElementById("val-qno").textContent = CONFIG.QUOTATION_NUMBER;
+  document.getElementById("lbl-date").textContent = c.date;
+  document.getElementById("val-date").textContent = date;
+  document.getElementById("lbl-valid").textContent = c.validityCurrency;
+  document.getElementById("val-valid").textContent = `${CONFIG.VALIDITY_DAYS} ${c.days} · ${CONFIG.CURRENCY}`;
+
+  document.getElementById("h-s03").textContent = c.s03;
+  document.getElementById("h-s04").textContent = c.s04;
+  document.getElementById("h-s05").textContent = c.s05;
+  document.getElementById("h-s06").textContent = c.s06;
+  document.getElementById("h-s07").textContent = c.s07;
+  document.getElementById("h-s08").textContent = c.s08;
+  document.getElementById("h-s09").textContent = c.s09;
+
+  const tocTitle = document.getElementById("toc-title");
+  if (tocTitle) tocTitle.textContent = c.tocTitle;
+  document.querySelectorAll("[data-toc]").forEach((el) => {
+    const key = el.getAttribute("data-toc");
+    if (key && c[key]) el.textContent = c[key];
+  });
+
+  document.getElementById("mode-package-title").textContent = c.packageTitle;
+  document.getElementById("mode-package-price").textContent = money(CONFIG.PACKAGE_ALL_PRICE);
+  document.getElementById("mode-custom-title").textContent = c.customTitle;
+  document.getElementById("mode-custom-price").textContent =
+    selectedIds.size && !isPackageMode() ? money(selectedListSum()) : "—";
+
+  document.getElementById("mode-package").classList.toggle("active", isPackageMode());
+  document.getElementById("mode-custom").classList.toggle("active", !isPackageMode() && selectedIds.size > 0);
+
+  document.getElementById("btn-select-all").textContent = c.selectAll;
+  document.getElementById("btn-clear-all").textContent = c.clearAll;
+  document.getElementById("sel-info").textContent =
+    `${selectedIds.size} / ${CONFIG.MODULES.length} ${c.selectedCount}`;
+
+  renderSelectionSummary();
+
+  document.getElementById("th-mod").textContent = c.module;
+  document.getElementById("th-period").textContent = c.period;
+  document.getElementById("th-status").textContent = c.status;
+  document.getElementById("th-price").textContent = c.price;
+  document.getElementById("td-total-label").textContent = c.grandTotal;
+
+  document.getElementById("h-included").textContent = c.warrantyIncTitle;
+  document.getElementById("h-excluded").textContent = c.warrantyExcTitle;
+  fillList(document.getElementById("list-included"), c.warrantyInc);
+  fillList(document.getElementById("list-excluded"), c.warrantyExc);
+  fillList(document.getElementById("assumptions"), c.assumptions);
+  renderDeliverables();
+
+  document.getElementById("k-project").textContent = c.project;
+  document.getElementById("v-project").textContent = project;
+  document.getElementById("k-modules").textContent = c.modulesLabel;
+  const modsEl = document.getElementById("v-modules");
+  if (selectedIds.size === 0) {
+    modsEl.textContent = "—";
+  } else if (isPackageMode()) {
+    modsEl.textContent = L === "ar"
+      ? `${CONFIG.MODULES.length} · ${c.packageTitle}`
+      : `${CONFIG.MODULES.length} · ${c.packageTitle}`;
+  } else {
+    const names = CONFIG.MODULES
+      .filter((m) => selectedIds.has(m.id))
+      .map((m) => (L === "ar" ? m.name_ar : m.name_en));
+    modsEl.textContent = names.length <= 3
+      ? `${names.length} · ${names.join(" · ")}`
+      : (L === "ar"
+          ? `${toEasternDigits(names.length)} وحدات مختارة`
+          : `${names.length} selected modules`);
+  }
+  document.getElementById("k-impl").textContent = c.durationLabel;
+  document.getElementById("v-impl").textContent = durationShort;
+  document.getElementById("k-invest").textContent = c.totalLabel;
+  document.getElementById("summary-total").textContent = total;
+  document.getElementById("modules-total").textContent = total;
+  document.getElementById("k-warranty").textContent = c.warranty;
+  document.getElementById("v-warranty").textContent = warranty;
+  document.getElementById("k-validity").textContent = c.validity;
+  document.getElementById("v-validity").textContent = `${CONFIG.VALIDITY_DAYS} ${c.days}`;
+
+  const legal = L === "ar" ? CONFIG.COMPANY_LEGAL_AR : CONFIG.COMPANY_LEGAL_EN;
+  document.getElementById("footer-text").innerHTML =
+    `<strong>${company}</strong> · ${legal}<br />` +
+    `${address}<br />` +
+    `<a href="https://${CONFIG.COMPANY_WEBSITE.replace(/^www\./, "")}" target="_blank" rel="noopener">${CONFIG.COMPANY_WEBSITE}</a>` +
+    `  ·  <a href="tel:${CONFIG.COMPANY_PHONE}">${CONFIG.COMPANY_PHONE}</a>` +
+    `  ·  <a href="mailto:${CONFIG.COMPANY_EMAIL}">${CONFIG.COMPANY_EMAIL}</a><br />` +
+    `${c.confidential} — ${CONFIG.QUOTATION_NUMBER}`;
+  document.title = `${CONFIG.QUOTATION_NUMBER} — ${project}`;
+
+  ["brand-logo", "bar-logo", "footer-logo"].forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) el.src = CONFIG.LOGO_SRC;
+  });
+
+  document.getElementById("math-warn").classList.remove("show");
+  const weekSum = weeksBaseSum();
+  if (weekSum !== CONFIG.PACKAGE_ALL_PRICE) {
+    const warn = document.getElementById("math-warn");
+    warn.textContent = `Config check: weeks ${weekSum.toLocaleString()} · package ${CONFIG.PACKAGE_ALL_PRICE.toLocaleString()}`;
+    warn.classList.add("show");
+  }
+}
+
+
+/** Estimate duration from selection.
+ *  Full package: 3 months / 12 weeks + 1 test month.
+ *  Custom: module days + test time = implementation × TEST_RATIO (1/3). */
+function estimateDuration() {
+  const selected = selectedIds.size;
+  if (selected === 0) {
+    return {
+      totalMonths: 0, totalWeeks: 0, totalDays: 0,
+      implMonths: 0, implWeeks: 0, implDays: 0,
+      testMonths: 0, testWeeks: 0, testDays: 0,
+      fullTestMonth: false
+    };
+  }
+
+  let implMonths;
+  let implWeeks;
+  let implDays;
+  let testDays;
+  let testWeeks;
+  let testMonths;
+  let fullTestMonth = false;
+
+  if (isPackageMode()) {
+    implMonths = CONFIG.DURATION_TOTAL_MONTHS;
+    implWeeks = CONFIG.DURATION_TOTAL_WEEKS;
+    implDays = CONFIG.MODULES.reduce((s, m) => s + Number(m.duration_days || 0), 0);
+    testMonths = Number(CONFIG.TEST_MONTHS || 1);
+    testWeeks = Number(CONFIG.TEST_WEEKS || 4);
+    testDays = testWeeks * 7;
+    fullTestMonth = true;
+  } else {
+    implDays = CONFIG.MODULES
+      .filter((m) => selectedIds.has(m.id))
+      .reduce((s, m) => s + Number(m.duration_days || 0), 0);
+    implWeeks = Math.max(1, Math.ceil(implDays / 7));
+    implMonths = Math.max(1, Math.ceil(implDays / 30));
+    const ratio = Number(CONFIG.TEST_RATIO != null ? CONFIG.TEST_RATIO : 1 / 3);
+    testDays = Math.max(1, Math.round(implDays * ratio));
+    testWeeks = Math.max(1, Math.ceil(testDays / 7));
+    testMonths = Math.max(1, Math.ceil(testDays / 30));
+    fullTestMonth = false;
+  }
+
+  return {
+    implDays,
+    implMonths,
+    implWeeks,
+    testDays,
+    testWeeks,
+    testMonths,
+    fullTestMonth,
+    totalDays: implDays + testDays,
+    totalMonths: implMonths + (fullTestMonth ? testMonths : 0),
+    totalWeeks: implWeeks + testWeeks
+  };
+}
+
+function toEasternDigits(n) {
+  return String(n).replace(/\d/g, (d) => "٠١٢٣٤٥٦٧٨٩"[d]);
+}
+
+/** Arabic/English count labels — kind: month | week | day */
+function formatCountUnit(n, L, kind) {
+  if (L !== "ar") {
+    const en = {
+      month: ["1 Month", "Months"],
+      week: ["1 Week", "Weeks"],
+      day: ["1 Day", "Days"]
+    }[kind];
+    return n === 1 ? en[0] : `${n} ${en[1]}`;
+  }
+  const forms = {
+    month: { one: "شهر واحد", two: "شهران", few: "أشهر", many: "شهرًا" },
+    week: { one: "أسبوع واحد", two: "أسبوعان", few: "أسابيع", many: "أسبوعًا" },
+    day: { one: "يوم واحد", two: "يومان", few: "أيام", many: "يومًا" }
+  }[kind];
+  if (n === 1) return forms.one;
+  if (n === 2) return forms.two;
+  const num = toEasternDigits(n);
+  if (n >= 3 && n <= 10) return `${num} ${forms.few}`;
+  return `${num} ${forms.many}`;
+}
+
+function formatImplDuration(dur, L) {
+  if (!dur.implDays && !dur.implWeeks) return "—";
+  if (!isPackageMode() && dur.implDays > 0 && dur.implDays < 30) {
+    return formatCountUnit(dur.implDays, L, "day");
+  }
+  return `${formatCountUnit(dur.implMonths, L, "month")} / ${formatCountUnit(dur.implWeeks, L, "week")}`;
+}
+
+function formatTestDuration(dur, L) {
+  if (dur.fullTestMonth) {
+    return L === "ar" ? "شهر اختبار" : "1 Test Month";
+  }
+  if (!dur.testDays) return "";
+  if (dur.testDays < 30) {
+    const days = formatCountUnit(dur.testDays, L, "day");
+    return L === "ar" ? `${days} اختبار` : `${days} Testing`;
+  }
+  const weeks = formatCountUnit(dur.testWeeks, L, "week");
+  return L === "ar" ? `${weeks} اختبار` : `${weeks} Testing`;
+}
+
+function formatDuration(dur, L) {
+  const base = formatImplDuration(dur, L);
+  if (base === "—") return "—";
+  const test = formatTestDuration(dur, L);
+  return test ? `${base} + ${test}` : base;
+}
+
+function formatWeekSpan(from, to, L) {
+  if (from === to) {
+    return L === "ar" ? `الأسبوع ${toEasternDigits(from)}` : `Week ${from}`;
+  }
+  return L === "ar"
+    ? `الأسابيع ${toEasternDigits(from)}–${toEasternDigits(to)}`
+    : `Weeks ${from}–${to}`;
+}
+
+/** Build implementation rows for current selection */
+function buildPlanRows() {
+  const L = currentLang();
+  const c = t();
+  const tot = contractTotal();
+  if (selectedIds.size === 0 || tot <= 0) return [];
+
+  if (isPackageMode()) {
+    const phases = CONFIG.WEEK_PLAN.slice();
+    const amounts = allocateWeekAmounts(phases, tot);
+    return phases.map((w, i) => ({
+      heading: `${L === "ar" ? w.weeks_ar : w.weeks_en} — ${L === "ar" ? w.title_ar : w.title_en}`,
+      amount: amounts[i],
+      items: null
+    }));
+  }
+
+  const mods = CONFIG.MODULES.filter((m) => selectedIds.has(m.id))
+    .slice()
+    .sort((a, b) => Number(a.week_from) - Number(b.week_from) || a.id - b.id);
+
+  const discShare = Math.round(tot * 0.1);
+  const uatShare = Math.round(tot * 0.1);
+  const modPool = Math.max(0, tot - discShare - uatShare);
+  const priceBase = mods.reduce((s, m) => s + Number(m.price || 0), 0) || 1;
+  const modAmounts = [];
+  let allocated = 0;
+  mods.forEach((m, i) => {
+    if (i === mods.length - 1) {
+      modAmounts.push(Math.max(0, modPool - allocated));
+    } else {
+      const amt = Math.round((Number(m.price || 0) / priceBase) * modPool);
+      modAmounts.push(amt);
+      allocated += amt;
+    }
+  });
+
+  const dur = estimateDuration();
+  const deliveryWeeks = Math.max(1, Math.ceil((dur.implDays || 1) / 7));
+  const discWeeks = deliveryWeeks <= 2 ? 1 : 2;
+  const testWeeks = Math.max(1, Number(dur.testWeeks || 1));
+  const testLabel = formatTestDuration(dur, L);
+  const goLiveTitle = L === "ar"
+    ? `اختبار القبول والتدريب والتشغيل (${testLabel})`
+    : `UAT, Training & Go-Live (${testLabel})`;
+
+  let cursor = 1;
+  const discFrom = cursor;
+  const discTo = cursor + discWeeks - 1;
+  cursor = discTo + 1;
+
+  const delFrom = cursor;
+  const delTo = cursor + deliveryWeeks - 1;
+  cursor = delTo + 1;
+
+  const uatFrom = cursor;
+  const uatTo = cursor + testWeeks - 1;
+
+  return [
+    {
+      heading: `${formatWeekSpan(discFrom, discTo, L)} — ${c.planDiscovery}`,
+      amount: discShare,
+      items: null
+    },
+    {
+      heading: `${formatWeekSpan(delFrom, delTo, L)} — ${c.planDelivery}`,
+      amount: modPool,
+      items: mods.map((m, i) => ({
+        name: L === "ar" ? m.name_ar : m.name_en,
+        meta: L === "ar" ? m.period_ar : m.period_en,
+        amount: modAmounts[i]
+      }))
+    },
+    {
+      heading: `${formatWeekSpan(uatFrom, uatTo, L)} — ${goLiveTitle}`,
+      amount: tot - discShare - modPool,
+      items: null
+    }
+  ];
+}
+
+function renderWeeks() {
+  const root = document.getElementById("weeks");
+  root.innerHTML = "";
+  const rows = buildPlanRows();
+
+  if (!rows.length) {
+    root.innerHTML = `<div class="week"><div class="week-top"><h3>—</h3></div></div>`;
+    return;
+  }
+
+  rows.forEach((row, i) => {
+    const el = document.createElement("article");
+    el.className = "week";
+    el.style.animationDelay = `${Math.min(i, 6) * 0.05}s`;
+    let detail = "";
+    if (row.items && row.items.length) {
+      detail = `<div class="week-detail"><ul>${row.items.map((it) =>
+        `<li><span class="wd-name">${it.name}</span><span class="wd-meta">${it.meta} · ${money(it.amount)}</span></li>`
+      ).join("")}</ul></div>`;
+    }
+    el.innerHTML = `
+      <div class="week-top">
+        <h3>${row.heading}</h3>
+        <div class="wm"><strong>${money(row.amount)}</strong></div>
+      </div>
+      ${detail}`;
+    root.appendChild(el);
+  });
+}
+
+function renderSelectionSummary() {
+  const L = currentLang();
+  const c = t();
+  const box = document.getElementById("sel-summary");
+  if (!box) return;
+  const n = selectedIds.size;
+  const totalMods = CONFIG.MODULES.length;
+  const dur = estimateDuration();
+  const price = contractTotal();
+  const empty = n === 0;
+  const pkg = isPackageMode();
+  const durText = formatDuration(dur, L);
+
+  box.classList.toggle("empty", empty);
+  box.hidden = false;
+
+  document.getElementById("ss-mode").textContent = empty
+    ? c.customTitle
+    : (pkg ? c.packageTitle : c.customTitle);
+  document.getElementById("ss-count").textContent = empty
+    ? `0 / ${totalMods}`
+    : `${n} / ${totalMods} ${c.metricModules}`;
+
+  document.getElementById("ss-dur-lbl").textContent = c.metricDuration;
+  document.getElementById("ss-dur-val").textContent = durText;
+  document.getElementById("ss-price-lbl").textContent = c.metricPrice;
+  document.getElementById("ss-price-val").textContent = money(price);
+
+  const saveEl = document.getElementById("ss-save");
+  if (saveEl) {
+    const save = !empty && pkg ? packageSavings() : 0;
+    if (save > 0) {
+      saveEl.hidden = false;
+      saveEl.textContent = `${c.savings}: ${money(save)}`;
+    } else {
+      saveEl.hidden = true;
+      saveEl.textContent = "";
+    }
+  }
+
+  const wrap = document.getElementById("ss-picks-wrap");
+  const picks = document.getElementById("ss-picks");
+  if (!wrap || !picks) return;
+
+  if (empty || pkg) {
+    wrap.hidden = true;
+    picks.innerHTML = "";
+    return;
+  }
+
+  document.getElementById("ss-h-mod").textContent = c.modulesCol;
+  document.getElementById("ss-h-time").textContent = c.pickDuration;
+  document.getElementById("ss-h-price").textContent = c.pickPrice;
+
+  picks.innerHTML = CONFIG.MODULES.filter((m) => selectedIds.has(m.id)).map((m, i) => {
+    const name = L === "ar" ? m.name_ar : m.name_en;
+    const period = L === "ar" ? m.period_ar : m.period_en;
+    return `<li style="animation-delay:${Math.min(i, 6) * 0.04}s">
+      <span class="pk-name">${name}</span>
+      <span class="pk-time">${period}</span>
+      <span class="pk-price">${money(m.price)}</span>
+    </li>`;
+  }).join("");
+
+  wrap.hidden = false;
+}
+
+function renderModules() {
+  const L = currentLang();
+  const c = t();
+  const tbody = document.getElementById("modules-body");
+  const mobile = document.getElementById("modules-mobile");
+  tbody.innerHTML = "";
+  mobile.innerHTML = "";
+
+  CONFIG.MODULES.forEach((m) => {
+    const name = L === "ar" ? m.name_ar : m.name_en;
+    const period = L === "ar" ? m.period_ar : m.period_en;
+    const price = money(m.price);
+    const on = selectedIds.has(m.id);
+
+    const tr = document.createElement("tr");
+    if (!on) tr.className = "mod-off";
+    tr.innerHTML = `
+      <td class="chk"><input type="checkbox" data-mid="${m.id}" ${on ? "checked" : ""} aria-label="${name}" /></td>
+      <td><strong>${name}</strong></td>
+      <td>${period}</td>
+      <td><span class="badge">${on ? c.selected : "—"}</span></td>
+      <td class="num">${price}</td>`;
+    tbody.appendChild(tr);
+
+    const card = document.createElement("div");
+    card.className = "mod-card" + (on ? "" : " off");
+    card.innerHTML = `
+      <div class="mc-top">
+        <label style="display:flex;gap:8px;align-items:flex-start;cursor:pointer">
+          <input type="checkbox" data-mid="${m.id}" ${on ? "checked" : ""} />
+          <span class="mc-name">${name}</span>
+        </label>
+        <div class="mc-price">${price}</div>
+      </div>
+      <div class="mc-meta"><span>${period}</span><span class="badge">${on ? c.selected : "—"}</span></div>`;
+    mobile.appendChild(card);
+  });
+
+  tbody.querySelectorAll('input[type="checkbox"]').forEach((inp) => {
+    inp.addEventListener("change", () => toggleModule(Number(inp.dataset.mid), inp.checked));
+  });
+  mobile.querySelectorAll('input[type="checkbox"]').forEach((inp) => {
+    inp.addEventListener("change", () => toggleModule(Number(inp.dataset.mid), inp.checked));
+  });
+
+  const totalCard = document.createElement("div");
+  totalCard.className = "mod-card";
+  totalCard.style.background = "var(--navy-deep)";
+  totalCard.style.color = "#fff";
+  totalCard.innerHTML = `
+    <div class="mc-top">
+      <div class="mc-name" style="color:#fff">${c.grandTotal}</div>
+      <div class="mc-price" style="color:#fff">${money(contractTotal())}</div>
+    </div>`;
+  mobile.appendChild(totalCard);
+
+  document.getElementById("modules-total").textContent = money(contractTotal());
+}
+
+function allocatePercents(total, terms) {
+  const amounts = [];
+  let allocated = 0;
+  terms.forEach((term, i) => {
+    if (i === terms.length - 1) {
+      amounts.push(Math.max(0, total - allocated));
+    } else {
+      const amt = Math.round((total * term.percent) / 100);
+      amounts.push(amt);
+      allocated += amt;
+    }
+  });
+  return amounts;
+}
+
+function renderPayments() {
+  const L = currentLang();
+  const root = document.getElementById("payments");
+  const tot = contractTotal();
+
+  if (selectedIds.size === 0 || tot <= 0) {
+    root.innerHTML = `<div class="pay-panel"><div class="pay-empty">—</div></div>`;
+    return;
+  }
+
+  const terms = CONFIG.PAYMENT_TERMS;
+  const amounts = allocatePercents(tot, terms);
+
+  const rows = terms
+    .map((term, i) => {
+      const label = L === "ar" ? term.label_ar : term.label_en;
+      return `
+        <div class="pay-row" style="animation-delay:${i * 0.05}s">
+          <div class="pay-step">${String(i + 1).padStart(2, "0")}</div>
+          <div class="pay-meta">
+            <div class="pm-pct">${term.percent}%</div>
+            <div class="pm-desc">${label}</div>
+          </div>
+          <div class="pay-amt">${money(amounts[i])}</div>
+        </div>`;
+    })
+    .join("");
+
+  root.innerHTML = `
+    <div class="pay-panel">
+      <div class="pay-list">${rows}</div>
+    </div>`;
+}
+
+function renderAll() {
+  renderStatic();
+  renderModules();
+  renderWeeks();
+  renderPayments();
+}
+
+document.getElementById("btn-ar").addEventListener("click", () => setLang("ar"));
+document.getElementById("btn-en").addEventListener("click", () => setLang("en"));
+document.getElementById("btn-select-all").addEventListener("click", selectAll);
+document.getElementById("btn-clear-all").addEventListener("click", clearAll);
+document.getElementById("mode-package").addEventListener("click", selectAll);
+document.getElementById("mode-package").addEventListener("keydown", (e) => {
+  if (e.key === "Enter" || e.key === " ") { e.preventDefault(); selectAll(); }
+});
+document.getElementById("mode-custom").addEventListener("click", () => {
+  /* switch visual focus only — keep current selection; if package, leave as-is until user unchecks */
+  if (isPackageMode()) {
+    /* hint: user can uncheck modules; no auto-change */
+  }
+  document.getElementById("modules-body")?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+});
+
+(function init() {
+  loadSelection();
+  if (selectedIds.size === 0) {
+    selectedIds = new Set(CONFIG.MODULES.map((m) => m.id));
+  }
+  let lang = CONFIG.DEFAULT_LANG || "ar";
+  try {
+    const saved = localStorage.getItem(LANG_KEY);
+    if (saved === "ar" || saved === "en") lang = saved;
+  } catch (_) {}
+  setLang(lang);
+})();
+</script>
+</body>
+</html>
