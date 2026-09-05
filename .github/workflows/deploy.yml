@@ -1,0 +1,39 @@
+name: Deploy to VPS
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Sync site to VPS
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          source: "index.html,Custom_Engineering_ERP_Quotation.html,logo.png,deploy"
+          target: /var/www/QT-ERP-2026-036
+          overwrite: true
+
+      - name: Configure nginx + reload
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            set -euo pipefail
+            APP_DIR=/var/www/QT-ERP-2026-036
+            mkdir -p "$APP_DIR/deploy"
+            chmod +x "$APP_DIR/deploy/vps-nginx-sync.sh" || true
+            bash "$APP_DIR/deploy/vps-nginx-sync.sh"
+            ls -la "$APP_DIR"
