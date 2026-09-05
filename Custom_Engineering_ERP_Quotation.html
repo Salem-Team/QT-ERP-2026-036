@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -133,6 +133,36 @@
     .hero-card.primary .lbl { opacity: .65; color: #fff; }
     .hero-card .val { font-size: 22px; font-weight: 700; line-height: 1.25; }
     .hero-card.primary .val { font-size: clamp(1.5rem, 5vw, 1.85rem); direction: ltr; unicode-bidi: isolate; }
+
+    /* Arabic: keep page RTL; amounts align start (right) with currency after the number */
+    html[lang="ar"] .hero-card .val,
+    html[lang="ar"] .hero-card.primary .val,
+    html[lang="ar"] td.num,
+    html[lang="ar"] th.num,
+    html[lang="ar"] .mod-card .mc-price,
+    html[lang="ar"] .mode-card .mp,
+    html[lang="ar"] .sel-summary .ss-total .val,
+    html[lang="ar"] .sel-summary .ss-total.price .val,
+    html[lang="ar"] .sel-summary .ss-picks .pk-price,
+    html[lang="ar"] .week-top .wm,
+    html[lang="ar"] .week-detail .wd-meta,
+    html[lang="ar"] .pay-amt,
+    html[lang="ar"] .sum-row .v,
+    html[lang="ar"] .sum-row.total .v {
+      direction: rtl;
+      unicode-bidi: plaintext;
+      text-align: start;
+    }
+    html[lang="ar"] .hero-card,
+    html[lang="ar"] .meta,
+    html[lang="ar"] .mode-card,
+    html[lang="ar"] .toc-list a,
+    html[lang="ar"] .mod-card,
+    html[lang="ar"] .sel-summary .ss-head,
+    html[lang="ar"] .sel-summary .ss-totals {
+      text-align: start;
+    }
+    html[lang="ar"] body { text-align: start; }
 
     .meta {
       display: grid; grid-template-columns: 1fr; gap: 12px; margin-top: 20px; text-align: start;
@@ -347,10 +377,10 @@
     }
     .sel-bar button.primary { background: var(--navy); color: #fff; border-color: var(--navy); }
 
-    /* Selection summary — sticky on desktop only */
+    /* Selection summary — scrolls with page (not sticky) */
     .sel-summary {
       position: relative;
-      z-index: 40;
+      z-index: 1;
       margin: 0 0 18px;
       border-radius: 12px;
       overflow: hidden;
@@ -360,12 +390,6 @@
       box-shadow: 0 8px 24px rgba(5, 24, 72, 0.16);
       transition: box-shadow .25s ease, transform .25s ease;
       animation: rk-fade-up .4s ease both;
-    }
-    @media (min-width: 760px) {
-      .sel-summary {
-        position: sticky;
-        top: calc(var(--bar-h) + var(--safe-top) + 8px);
-      }
     }
     .sel-summary-inner { padding: 0; }
     .sel-summary .ss-head {
@@ -904,7 +928,7 @@ const CONFIG = {
   ],
 
   LOGO_SRC: "logo.png",
-  DEFAULT_LANG: "en"
+  DEFAULT_LANG: "ar"
 };
 
 const DELIVERABLES_CORE = [
@@ -1335,7 +1359,11 @@ const SEL_KEY = "erp_quotation_selected_modules_v15";
 let selectedIds = new Set(CONFIG.MODULES.map((m) => m.id));
 
 function money(n) {
-  return Number(n || 0).toLocaleString("en-EG") + " " + CONFIG.CURRENCY;
+  const formatted = Number(n || 0).toLocaleString("en-US");
+  if (currentLang() === "ar") {
+    return formatted + "\u00A0" + CONFIG.CURRENCY;
+  }
+  return formatted + " " + CONFIG.CURRENCY;
 }
 function listPriceSum() {
   return CONFIG.MODULES.reduce((s, m) => s + Number(m.price || 0), 0);
