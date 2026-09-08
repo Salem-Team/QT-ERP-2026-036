@@ -761,7 +761,7 @@
 <!--
 ╔══════════════════════════════════════════════════════════════════╗
 ║  CONFIG — عدّل الأسعار من هنا فقط / EDIT PRICES HERE ONLY      ║
-║  Full package (all 15 modules) = 200,000 EGP. ║
+║  Full package (all 15 modules) = 180,000 EGP. ║
 ║  Custom selection = sum of selected MODULE list prices.          ║
 ╚══════════════════════════════════════════════════════════════════╝
 -->
@@ -790,8 +790,8 @@ const CONFIG = {
   VALIDITY_DAYS: 14,
   CURRENCY: "EGP",
 
-  /* ★ Commercial: full package = all 15 modules = 200,000 EGP */
-  PACKAGE_ALL_PRICE: 200000,
+  /* ★ Commercial: full package = all 15 modules = 180,000 EGP */
+  PACKAGE_ALL_PRICE: 180000,
   DURATION_TOTAL_MONTHS: 3,
   DURATION_TOTAL_WEEKS: 12,
   /* Extra testing: full package = 1 month; custom = 1/3 of selected implementation time */
@@ -806,8 +806,8 @@ const CONFIG = {
   WARRANTY_PERIOD: "12 Months — Free",
   WARRANTY_PERIOD_AR: "١٢ شهرًا — مجانًا",
 
-  /* 15 consolidated business modules — list sum = PACKAGE_ALL_PRICE = 200,000
-     Brief line items summed to 190k; +10k assigned to Finance (central module) to hit 200k.
+  /* 15 consolidated business modules — list sum = 200,000 (custom selection)
+     Full package discount: PACKAGE_ALL_PRICE = 180,000 (−20k).
      duration_days sum = 90 (3 months). Optional Future Expansion excluded from price. */
   MODULES: [
     { id: 1, name_en: "CRM, Business Development & Tender Management", name_ar: "\u0625\u062f\u0627\u0631\u0629 \u0639\u0644\u0627\u0642\u0627\u062a \u0627\u0644\u0639\u0645\u0644\u0627\u0621 \u0648\u062a\u0637\u0648\u064a\u0631 \u0627\u0644\u0623\u0639\u0645\u0627\u0644 \u0648\u0627\u0644\u0645\u0646\u0627\u0642\u0635\u0627\u062a",
@@ -902,21 +902,21 @@ const CONFIG = {
       includes_ar: ["محرك سير العمل والموافقات والمصفوفات", "التحكم في الوصول حسب الدور", "صلاحيات العرض/الإنشاء/التعديل/التقديم/الاعتماد/الإلغاء/التعديل/الطباعة/التصدير", "قيود على مستوى الحقل", "إشعارات البريد وداخل النظام", "تذكيرات وتصعيد", "سجل تدقيق كامل وتاريخ المراجعات/الإلغاء"] }
   ],
 
-  /* 12-week plan — values sum = PACKAGE_ALL_PRICE (200,000) */
+  /* 12-week plan — values sum = PACKAGE_ALL_PRICE (180,000) */
   WEEK_PLAN: [
-    { id: 1, weeks_en: "Week 1–2", weeks_ar: "الأسبوع ١–٢", week_from: 1, week_to: 2, value: 20000, always: true,
+    { id: 1, weeks_en: "Week 1–2", weeks_ar: "الأسبوع ١–٢", week_from: 1, week_to: 2, value: 18000, always: true,
       title_en: "Discovery & Business Analysis", title_ar: "الاكتشاف وتحليل الأعمال" },
-    { id: 2, weeks_en: "Week 3–4", weeks_ar: "الأسابيع ٣–٤", week_from: 3, week_to: 4, value: 32000,
+    { id: 2, weeks_en: "Week 3–4", weeks_ar: "الأسابيع ٣–٤", week_from: 3, week_to: 4, value: 28800,
       title_en: "CRM, BD, Sales & Contracts", title_ar: "CRM وتطوير الأعمال والمبيعات والعقود" },
-    { id: 3, weeks_en: "Week 5–7", weeks_ar: "الأسابيع ٥–٧", week_from: 5, week_to: 7, value: 55000,
+    { id: 3, weeks_en: "Week 5–7", weeks_ar: "الأسابيع ٥–٧", week_from: 5, week_to: 7, value: 49500,
       title_en: "Projects, Engineering & Quality", title_ar: "المشاريع والهندسة والجودة" },
-    { id: 4, weeks_en: "Week 8–9", weeks_ar: "الأسابيع ٨–٩", week_from: 8, week_to: 9, value: 35000,
+    { id: 4, weeks_en: "Week 8–9", weeks_ar: "الأسابيع ٨–٩", week_from: 8, week_to: 9, value: 31500,
       title_en: "Commercial, Procurement & Assets", title_ar: "التجاري والمشتريات والأصول" },
-    { id: 5, weeks_en: "Week 10", weeks_ar: "الأسبوع ١٠", week_from: 10, week_to: 10, value: 28000,
+    { id: 5, weeks_en: "Week 10", weeks_ar: "الأسبوع ١٠", week_from: 10, week_to: 10, value: 25200,
       title_en: "Finance & Accounting", title_ar: "المالية والمحاسبة" },
-    { id: 6, weeks_en: "Week 11", weeks_ar: "الأسبوع ١١", week_from: 11, week_to: 11, value: 20000,
+    { id: 6, weeks_en: "Week 11", weeks_ar: "الأسبوع ١١", week_from: 11, week_to: 11, value: 18000,
       title_en: "HR, Payroll & Internal Support", title_ar: "الموارد البشرية والرواتب والدعم الداخلي" },
-    { id: 7, weeks_en: "Week 12–15", weeks_ar: "الأسابيع ١٢–١٥", week_from: 12, week_to: 15, value: 10000, always: true,
+    { id: 7, weeks_en: "Week 12–15", weeks_ar: "الأسابيع ١٢–١٥", week_from: 12, week_to: 15, value: 9000, always: true,
       title_en: "BI, Governance, UAT, Test Month & Go-Live", title_ar: "ذكاء الأعمال والحوكمة والاختبار والتشغيل" }
   ],
 
@@ -1107,7 +1107,7 @@ const COPY = {
     assumptions: [
       "Final requirements are confirmed in the approved BRD.",
       "Anything outside approved scope is priced as a Change Request.",
-      "Optional Future Expansion items in the PDF are excluded from the 200,000 EGP value.",
+      "Optional Future Expansion items in the PDF are excluded from the 180,000 EGP package value.",
       "Third-party licenses are excluded unless stated.",
       "Hardware, servers, and hosting are excluded unless contracted.",
       "Historical transaction migration beyond agreed data is estimated separately.",
@@ -1154,7 +1154,7 @@ const COPY = {
       <div class="hero-totals">
         <div class="hero-card primary">
           <div class="lbl" id="hero-total-lbl">إجمالي قيمة المشروع</div>
-          <div class="val" id="hero-total">200,000 EGP</div>
+          <div class="val" id="hero-total">180,000 EGP</div>
         </div>
         <div class="hero-card">
           <div class="lbl" id="hero-dur-lbl">مدة التنفيذ</div>
@@ -1204,7 +1204,7 @@ const COPY = {
       <div class="pricing-mode" id="pricing-mode">
         <div class="mode-card active" id="mode-package" role="button" tabindex="0">
           <div class="mt" id="mode-package-title">باقة كاملة</div>
-          <div class="mp" id="mode-package-price">200,000 EGP</div>
+          <div class="mp" id="mode-package-price">180,000 EGP</div>
         </div>
         <div class="mode-card" id="mode-custom" role="button" tabindex="0">
           <div class="mt" id="mode-custom-title">وحدات مختارة</div>
@@ -1233,7 +1233,7 @@ const COPY = {
             </div>
             <div class="ss-total price">
               <div class="lbl" id="ss-price-lbl">التكلفة</div>
-              <div class="val" id="ss-price-val">200,000 EGP</div>
+              <div class="val" id="ss-price-val">180,000 EGP</div>
             </div>
           </div>
           <div class="ss-save" id="ss-save" hidden></div>
@@ -1264,7 +1264,7 @@ const COPY = {
           <tfoot>
             <tr>
               <td colspan="4" id="td-total-label">الإجمالي</td>
-              <td class="num" id="modules-total">200,000 EGP</td>
+              <td class="num" id="modules-total">180,000 EGP</td>
             </tr>
           </tfoot>
         </table>
@@ -1329,7 +1329,7 @@ const COPY = {
           </div>
           <div class="sum-row total">
             <div class="k" id="k-invest">إجمالي قيمة المشروع</div>
-            <div class="v" id="summary-total">200,000 EGP</div>
+            <div class="v" id="summary-total">180,000 EGP</div>
           </div>
           <div class="sum-row">
             <div class="k" id="k-warranty">الضمان</div>
@@ -1376,7 +1376,7 @@ function selectedListSum() {
 function isPackageMode() {
   return selectedIds.size === CONFIG.MODULES.length;
 }
-/** Contract total: all modules = package 200k; else sum of selected list prices */
+/** Contract total: all modules = package 180k; else sum of selected list prices */
 function contractTotal() {
   if (selectedIds.size === 0) return 0;
   if (isPackageMode()) return CONFIG.PACKAGE_ALL_PRICE;
