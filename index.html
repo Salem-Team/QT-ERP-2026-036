@@ -950,23 +950,23 @@ const CONFIG = {
   /* 12-week plan — values sum = PACKAGE_ALL_PRICE (180,000) */
   WEEK_PLAN: [
     { id: 1, weeks_en: "Week 1–2", weeks_ar: "الأسبوع ١–٢", week_from: 1, week_to: 2, value: 18000, always: true,
-      title_en: "Discovery & Business Analysis", title_ar: "الاكتشاف وتحليل الأعمال" },
+      title_en: "Discovery & Business Analysis", title_ar: "مرحلة التحليل ودراسة الأعمال" },
     { id: 2, weeks_en: "Week 3–4", weeks_ar: "الأسابيع ٣–٤", week_from: 3, week_to: 4, value: 28800,
-      title_en: "CRM, BD, Sales & Contracts", title_ar: "CRM وتطوير الأعمال والمبيعات والعقود" },
+      title_en: "CRM, BD, Sales & Contracts", title_ar: "إدارة العملاء وتطوير الأعمال والمبيعات والعقود" },
     { id: 3, weeks_en: "Week 5–7", weeks_ar: "الأسابيع ٥–٧", week_from: 5, week_to: 7, value: 49500,
-      title_en: "Projects, Engineering & Quality", title_ar: "المشاريع والهندسة والجودة" },
+      title_en: "Projects, Engineering & Quality", title_ar: "المشروعات والهندسة والجودة" },
     { id: 4, weeks_en: "Week 8–9", weeks_ar: "الأسابيع ٨–٩", week_from: 8, week_to: 9, value: 31500,
-      title_en: "Commercial, Procurement & Assets", title_ar: "التجاري والمشتريات والأصول" },
+      title_en: "Commercial, Procurement & Assets", title_ar: "الرقابة التجارية والمشتريات والأصول" },
     { id: 5, weeks_en: "Week 10", weeks_ar: "الأسبوع ١٠", week_from: 10, week_to: 10, value: 25200,
       title_en: "Finance & Accounting", title_ar: "المالية والمحاسبة" },
     { id: 6, weeks_en: "Week 11", weeks_ar: "الأسبوع ١١", week_from: 11, week_to: 11, value: 18000,
       title_en: "HR, Payroll & Internal Support", title_ar: "الموارد البشرية والرواتب والدعم الداخلي" },
     { id: 7, weeks_en: "Week 12–15", weeks_ar: "الأسابيع ١٢–١٥", week_from: 12, week_to: 15, value: 9000, always: true,
-      title_en: "BI, Governance, UAT, Test Month & Go-Live", title_ar: "ذكاء الأعمال والحوكمة والاختبار والتشغيل" }
+      title_en: "BI, Governance, UAT, Test Month & Go-Live", title_ar: "التقارير والحوكمة والاختبار والتشغيل الفعلي" }
   ],
 
   PAYMENT_TERMS: [
-    { percent: 40, label_en: "Project Kickoff / Contract Signing", label_ar: "بدء المشروع / توقيع العقد" },
+    { percent: 40, label_en: "Project Kickoff / Contract Signing", label_ar: "توقيع العقد وبداية المشروع" },
     { percent: 30, label_en: "Core System & Major Modules Delivery", label_ar: "تسليم النظام الأساسي والوحدات الرئيسية" },
     { percent: 20, label_en: "UAT & Final Acceptance", label_ar: "اختبار القبول والاعتماد النهائي" },
     { percent: 10, label_en: "Go-Live", label_ar: "التشغيل الفعلي" }
@@ -1038,7 +1038,7 @@ const COPY = {
     days: "يومًا",
     totalLabel: "إجمالي قيمة المشروع",
     durationLabel: "مدة التنفيذ",
-    s02: "ملخص النطاق",
+    s02: "ملخص نطاق العمل",
     s03: "تسعير الوحدات",
     s04: "خطة التنفيذ",
     s05: "جدول الدفعات",
@@ -1050,14 +1050,14 @@ const COPY = {
     tocTitle: "محتويات العرض",
     module: "الوحدة",
     price: "السعر",
-    period: "الفترة",
+    period: "المدة",
     status: "الحالة",
-    selected: "مختار",
+    selected: "مختارة",
     grandTotal: "الإجمالي",
     packageTitle: "باقة كاملة",
     customTitle: "وحدات مختارة",
     selectAll: "اختيار الكل",
-    clearAll: "إلغاء الكل",
+    clearAll: "إلغاء الاختيار",
     selectedCount: "وحدة",
     metricModules: "الوحدات",
     metricDuration: "المدة",
@@ -1068,41 +1068,41 @@ const COPY = {
     summaryPicks: "الوحدات المختارة",
     summaryTotal: "إجمالي الاختيار",
     modulesCol: "الوحدة",
-    includesLabel: "الوظائف المشمولة",
-    scope: "ملخص النطاق",
+    includesLabel: "ما تشمله الوحدة",
+    scope: "ملخص نطاق العمل",
     months: "أشهر",
     month: "شهر",
     weeks: "أسابيع",
-    payMode: "دفعات مرحلية",
+    payMode: "دفعات على مراحل",
     warrantyIncTitle: "يشمل",
     warrantyExcTitle: "لا يشمل",
     warrantyInc: ["إصلاح عيوب النطاق المعتمد","دعم فني للمستخدمين","تعديلات تشغيلية بسيطة"],
     warrantyExc: ["ميزات جديدة خارج النطاق","وحدات جديدة","تغييرات جوهرية في المتطلبات"],
     assumptions: [
-      "المتطلبات النهائية تُعتمد في وثيقة المتطلبات.",
+      "تُعتمد المتطلبات النهائية في وثيقة المتطلبات.",
       "أي بند خارج النطاق المعتمد يُسعَّر كطلب تغيير.",
       "بنود التوسع المستقبلي الاختياري في نطاق العمل مستثناة من قيمة ٢٠٠٬٠٠٠ ج.م.",
-      "تراخيص الأطراف الثالثة مستثناة ما لم تُذكر صراحة.",
+      "تراخيص الجهات الخارجية مستثناة ما لم تُذكر صراحة.",
       "الأجهزة والخوادم والاستضافة مستثناة ما لم تُدرج في العقد.",
-      "ترحيل المعاملات التاريخية خارج المتفق عليه يُقدَّر منفصلاً.",
-      "البنية التحتية والاستضافة مسؤولية العميل ما لم يُتعاقد خلاف ذلك."
+      "ترحيل المعاملات التاريخية خارج المتفق عليه يُقدَّر بصورة منفصلة.",
+      "البنية التحتية والاستضافة مسؤولية العميل ما لم يُنَص على غير ذلك في العقد."
     ],
-    authText: "التوقيع إقرار باستلام العرض والمتابعة بعقد رسمي.",
+    authText: "التوقيع إقرار باستلام العرض، والمتابعة بعقد رسمي.",
     forClient: "عن العميل",
-    forSupplier: "عن المورّد",
+    forSupplier: "عن المورد",
     project: "المشروع",
     modulesLabel: "الوحدات",
     warranty: "الضمان",
     validity: "الصلاحية",
-    confidential: "سرّي",
-    planDiscovery: "الاكتشاف وتحليل الأعمال",
+    confidential: "سري",
+    planDiscovery: "مرحلة التحليل ودراسة الأعمال",
     planDelivery: "تسليم الوحدات المختارة",
-    planGoLive: "اختبار القبول وشهر الاختبار والتدريب والتشغيل",
-    planConfigured: "تهيئة وتسليم",
+    planGoLive: "اختبار القبول وشهر الاختبار والتدريب والتشغيل الفعلي",
+    planConfigured: "التهيئة والتسليم",
     deliveryBtnShort: "جدول التسليم",
     deliveryBtnFull: "الجدول الزمني للتسليم",
-    deliveryCtaTitle: "الجدول الزمني النهائي للتسليم — وحدة تلو الأخرى",
-    deliveryCtaDesc: "مواعيد محددة من 15/10/2026 إلى 03/02/2027: بداية التنفيذ، ويوم العرض، وآخر موعد للقبول لكل وحدة، مع التقويم والدفعات.",
+    deliveryCtaTitle: "الجدول الزمني النهائي للتسليم — وحدة بوحدة",
+    deliveryCtaDesc: "مواعيد محددة من ١٥/١٠/٢٠٢٦ إلى ٠٣/٠٢/٢٠٢٧: بداية التنفيذ، ويوم العرض، وآخر موعد لقبول كل وحدة، مع التقويم والدفعات.",
     deliveryCtaBtn: "عرض الجدول الزمني النهائي للتسليم"
   },
   en: {
@@ -1338,10 +1338,10 @@ const COPY = {
       <div id="weeks"></div>
       <aside class="delivery-cta" aria-label="Final delivery schedule">
         <div class="cta-copy">
-          <div class="cta-title" id="delivery-cta-title">جدول التسليم النهائي — وحدة بوحدة</div>
-          <div class="cta-desc" id="delivery-cta-desc">تواريخ محددة من 15/10/2026 إلى 03/02/2027: بدء البناء، يوم العرض، وآخر يوم قبول لكل وحدة، مع التقويم والدفعات.</div>
+          <div class="cta-title" id="delivery-cta-title">الجدول الزمني النهائي للتسليم — وحدة تلو الأخرى</div>
+          <div class="cta-desc" id="delivery-cta-desc">مواعيد محددة من 15/10/2026 إلى 03/02/2027: بداية التنفيذ، ويوم العرض، وآخر موعد للقبول لكل وحدة، مع التقويم والدفعات.</div>
         </div>
-        <a class="cta-btn" id="delivery-cta-btn" href="delivery-plan.html">عرض جدول التسليم النهائي</a>
+        <a class="cta-btn" id="delivery-cta-btn" href="delivery-plan.html">عرض الجدول الزمني النهائي للتسليم</a>
       </aside>
     </section>
 
