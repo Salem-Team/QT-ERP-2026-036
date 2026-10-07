@@ -3,7 +3,8 @@
 # Usage: bash deploy/local-to-vps.sh
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-HOST="${DEPLOY_HOST:-sidracrm-vps}"
+# Live DNS for QT-ERP-2026-036.rootk-eg.com → 62.72.23.5 (sidracrm-vps-prev)
+HOST="${DEPLOY_HOST:-sidracrm-vps-prev}"
 APP_DIR="${APP_DIR:-/var/www/QT-ERP-2026-036}"
 DOMAIN="${DOMAIN:-QT-ERP-2026-036.rootk-eg.com}"
 
