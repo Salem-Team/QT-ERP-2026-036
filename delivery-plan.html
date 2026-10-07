@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>خطة التسليم الزمنية — Crown ERP · QT-ERP-2026-036</title>
+  <style>
+    :root {
+      --ink: #1a1a1a;
+      --muted: #5c5c5c;
+      --line: #d8d8d8;
+      --bg: #f4f6fa;
+      --card: #fff;
+      --navy: #082868;
+      --navy-deep: #051848;
+      --accent: #082868;
+      --accent-soft: #eef2fb;
+      --ok: #1b5e3b;
+      --ok-bg: #e8f5ee;
+      --warn: #8a5a00;
+      --warn-bg: #fff6e5;
+      --a: #082868;
+      --b: #4a5560;
+      --bar-h: 56px;
+      --safe-top: env(safe-area-inset-top, 0px);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, "Noto Sans Arabic", Arial, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.55;
+    }
+    .topbar {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(5, 24, 72, 0.96);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      color: #fff; padding: calc(8px + var(--safe-top)) 14px 8px;
+      min-height: calc(var(--bar-h) + var(--safe-top));
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    }
+    .topbar-brand { display: flex; align-items: center; gap: 10px; min-width: 0; text-decoration: none; color: inherit; }
+    .topbar-brand .logo-chip {
+      display: flex; align-items: center; justify-content: center;
+      background: #fff; border-radius: 8px; padding: 4px 8px; height: 40px; flex-shrink: 0;
+    }
+    .topbar-brand .logo-chip img { height: 28px; width: auto; display: block; }
+    .topbar-brand span {
+      font-size: 13px; font-weight: 700; white-space: nowrap;
+      overflow: hidden; text-overflow: ellipsis;
+      color: var(--navy-deep); background: #fff; border-radius: 8px; padding: 8px 12px; line-height: 1.2;
+    }
+    .btn-back {
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: inherit; font-size: 12.5px; font-weight: 700;
+      text-decoration: none; white-space: nowrap;
+      background: #fff; color: var(--navy-deep);
+      border-radius: 999px; padding: 8px 14px; min-height: 36px;
+    }
+    .btn-back:hover { background: #eef2fb; }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 20px 12px 64px; }
+    @media (min-width: 640px) {
+      .wrap { padding: 28px 16px 64px; }
+      .topbar { padding-inline: 20px; }
+      .topbar-brand .logo-chip { height: 44px; padding: 5px 10px; }
+      .topbar-brand .logo-chip img { height: 32px; }
+    }
+    .doc-header {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 28px 22px 22px;
+      margin-bottom: 20px;
+    }
+    @media (min-width: 640px) { .doc-header { padding: 36px 40px 28px; } }
+    .eyebrow {
+      font-size: 12px;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    h1 { margin: 0 0 8px; font-size: clamp(1.25rem, 4.5vw, 1.7rem); color: var(--navy-deep); }
+    .sub { color: var(--muted); font-size: 14px; margin: 0; }
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin: 20px 0;
+    }
+    .kpi {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 16px 18px;
+    }
+    .kpi .v { font-size: 20px; font-weight: 700; color: var(--navy); direction: ltr; unicode-bidi: plaintext; }
+    .kpi .l { font-size: 12px; color: var(--muted); margin-top: 4px; }
+    h2 {
+      font-size: 18px;
+      margin: 32px 0 12px;
+      color: var(--navy-deep);
+      border-bottom: 2px solid var(--navy);
+      padding-bottom: 8px;
+    }
+    h3 { font-size: 15px; margin: 20px 0 10px; }
+    .note {
+      background: var(--accent-soft);
+      border: 1px solid rgba(8,40,104,.18);
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+    .warn {
+      background: var(--warn-bg);
+      border: 1px solid #ecd9a8;
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 14px;
+      margin: 16px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+      font-size: 13px;
+    }
+    th, td {
+      border-bottom: 1px solid var(--line);
+      padding: 10px 12px;
+      text-align: right;
+      vertical-align: top;
+    }
+    th {
+      background: #eef2f5;
+      font-weight: 600;
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+    tr:last-child td { border-bottom: none; }
+    .date {
+      direction: ltr;
+      unicode-bidi: plaintext;
+      font-weight: 700;
+      white-space: nowrap;
+      color: var(--navy);
+      font-variant-numeric: tabular-nums;
+    }
+    .date-ar { white-space: nowrap; font-weight: 600; }
+    .tag {
+      display: inline-block;
+      font-size: 11px;
+      padding: 2px 8px;
+      border: 1px solid var(--line);
+      background: #f0f0f0;
+      white-space: nowrap;
+    }
+    .tag.a { background: var(--accent-soft); border-color: #b7cddb; color: var(--a); }
+    .tag.b { background: #f0f1f2; color: var(--b); }
+    .tag.pay { background: var(--ok-bg); border-color: #b7dcc8; color: var(--ok); }
+    .tag.hol { background: var(--warn-bg); border-color: #ecd9a8; color: var(--warn); }
+    .mod-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      margin-bottom: 12px;
+      overflow: hidden;
+    }
+    .mod-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      padding: 12px 16px;
+      background: #eef2f5;
+      border-bottom: 1px solid var(--line);
+      flex-wrap: wrap;
+    }
+    .mod-head strong { font-size: 15px; }
+    .mod-dates {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+    }
+    .mod-dates div {
+      padding: 12px 14px;
+      border-left: 1px solid var(--line);
+    }
+    .mod-dates div:last-child { border-left: none; }
+    .mod-dates .lbl { font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+    .mod-body { padding: 12px 16px 16px; font-size: 13px; color: var(--muted); }
+    .mod-body b { color: var(--ink); }
+    .tracks { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 8px; }
+    .track-box {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 14px 16px;
+      font-size: 13px;
+    }
+    .track-box h3 { margin-top: 0; }
+    .track-box ol { margin: 0; padding-right: 18px; }
+    .track-box li { margin-bottom: 6px; }
+    footer {
+      margin-top: 36px;
+      font-size: 12px;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      padding-top: 14px;
+    }
+    @media (max-width: 800px) {
+      .kpis, .mod-dates, .tracks { grid-template-columns: 1fr 1fr; }
+      .mod-dates { grid-template-columns: 1fr 1fr; }
+      .mod-dates div { border-left: none; border-bottom: 1px solid var(--line); }
+    }
+    @media print {
+      body { background: #fff; }
+      .wrap { max-width: none; padding: 0; }
+      .mod-card, table, header, .kpi, .note, .warn, .track-box { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="topbar-brand" href="index.html">
+      <span class="logo-chip"><img src="logo.png" alt="ROOTK" /></span>
+      <span>Rootk Systems</span>
+    </a>
+    <a class="btn-back" href="index.html">← العودة لعرض السعر</a>
+  </header>
+
+  <div class="wrap">
+    <header class="doc-header">
+      <div class="eyebrow">ROOTK · عرض QT-ERP-2026-036 · Crown · سرّي</div>
+      <h1>جدول التسليم النهائي — وحدة بوحدة</h1>
+      <p class="sub">
+        الباقة الكاملة: 15 وحدة · 180,000 ج.م ·
+        من <span class="date">15/10/2026</span> إلى <span class="date">03/02/2027</span> ·
+        أيام العمل: الأحد–الخميس
+      </p>
+    </header>
+
+    <div class="kpis">
+      <div class="kpi"><div class="v">15/10/2026</div><div class="l">Kickoff + دفعة 40%</div></div>
+      <div class="kpi"><div class="v">28/10/2026</div><div class="l">اعتماد المتطلبات</div></div>
+      <div class="kpi"><div class="v">05/01/2027</div><div class="l">قبول آخر وحدة</div></div>
+      <div class="kpi"><div class="v">03/02/2027</div><div class="l">التشغيل الفعلي Go-Live</div></div>
+    </div>
+
+    <div class="note">
+      <b>قاعدة التسليم:</b> كل وحدة لها ثلاثة تواريخ ملزمة — بدء البناء، يوم العرض على Crown، وآخر يوم للقبول المكتوب (خلال 3 أيام عمل بعد العرض). الصمت بعد المهلة = قبول مع قائمة عيوب. العيب الحاجب فقط يوقف الوحدات المعتمدة على هذا العرض.
+    </div>
+
+    <h2>1) جدول تسليم الوحدات — تاريخ محدد لكل موديول</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>الوحدة</th>
+          <th>المسار</th>
+          <th>الجهد</th>
+          <th>بدء البناء</th>
+          <th>يوم العرض</th>
+          <th>آخر يوم قبول</th>
+        </tr>
+      </thead>
+      <tbody id="modules-table"></tbody>
+    </table>
+
+    <h2>2) تفاصيل كل وحدة</h2>
+    <div id="modules-detail"></div>
+
+    <h2>3) التقويم الرئيسي — كل معلم بتاريخ</h2>
+    <table>
+      <thead>
+        <tr><th>التاريخ</th><th>اليوم</th><th>النوع</th><th>ماذا يحدث</th></tr>
+      </thead>
+      <tbody id="master-table"></tbody>
+    </table>
+
+    <h2>4) الأسابيع الـ 16</h2>
+    <table>
+      <thead>
+        <tr><th>الأسبوع</th><th>من</th><th>إلى</th><th>المرحلة</th><th>المحتوى</th></tr>
+      </thead>
+      <tbody id="weeks-table"></tbody>
+    </table>
+
+    <h2>5) الدفعات — تاريخ استحقاق محدد</h2>
+    <table>
+      <thead>
+        <tr><th>النسبة</th><th>القيمة</th><th>البوابة</th><th>تاريخ الاستحقاق</th><th>شرط الصرف</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>40%</td><td>72,000 ج.م</td><td>توقيع العقد وبدء المشروع</td>
+          <td><span class="date-ar">الخميس</span> <span class="date">15/10/2026</span></td>
+          <td>قبل أي بناء</td>
+        </tr>
+        <tr>
+          <td>30%</td><td>54,000 ج.م</td><td>القلب التشغيلي</td>
+          <td><span class="date-ar">الأربعاء</span> <span class="date">23/12/2026</span></td>
+          <td>قبول الوحدات 1 و2 و3 و4 و5 و6 و12</td>
+        </tr>
+        <tr>
+          <td>20%</td><td>36,000 ج.م</td><td>اعتماد اختبار القبول</td>
+          <td><span class="date-ar">الأربعاء</span> <span class="date">27/01/2027</span></td>
+          <td>كل الوحدات مقبولة وUAT موقّع</td>
+        </tr>
+        <tr>
+          <td>10%</td><td>18,000 ج.م</td><td>التشغيل الفعلي</td>
+          <td><span class="date-ar">الأربعاء</span> <span class="date">03/02/2027</span></td>
+          <td>القطع على بيئة الإنتاج</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>6) ترتيب الاعتماد بين المسارين</h2>
+    <div class="tracks">
+      <div class="track-box">
+        <h3>مسار الأعمال A</h3>
+        <ol>
+          <li>1 CRM والمناقصات → قبول <span class="date">12/11/2026</span></li>
+          <li>2 المبيعات والعقود → قبول <span class="date">22/11/2026</span></li>
+          <li>3 المشاريع وPMO → قبول <span class="date">03/12/2026</span></li>
+          <li>4 الموارد الهندسية → قبول <span class="date">14/12/2026</span></li>
+          <li>5 المخرجات والمستندات → قبول <span class="date">23/12/2026</span></li>
+          <li>7 الرقابة التجارية → قبول <span class="date">31/12/2026</span></li>
+          <li>15 سير العمل والصلاحيات → قبول <span class="date">05/01/2027</span></li>
+        </ol>
+      </div>
+      <div class="track-box">
+        <h3>مسار التشغيل B</h3>
+        <ol>
+          <li>10 الموارد البشرية → قبول <span class="date">09/11/2026</span></li>
+          <li>11 الحضور والرواتب → قبول <span class="date">16/11/2026</span></li>
+          <li>12 المالية والمحاسبة → قبول <span class="date">03/12/2026</span></li>
+          <li>6 الجودة → قبول <span class="date">09/12/2026</span></li>
+          <li>13 المصروفات والدعم → قبول <span class="date">14/12/2026</span></li>
+          <li>8 المشتريات → قبول <span class="date">22/12/2026</span></li>
+          <li>9 المخزون والأصول → قبول <span class="date">29/12/2026</span></li>
+          <li>14 التقارير واللوحات → قبول <span class="date">04/01/2027</span></li>
+        </ol>
+      </div>
+    </div>
+
+    <div class="warn">
+      <b>إجازات داخل النافذة:</b>
+      الخميس <span class="date">07/01/2027</span> (عيد الميلاد) والاثنين <span class="date">25/01/2027</span> إجازات رسمية — لا عمل.
+      أي وظيفة خارج وثيقة المتطلبات المعتمدة يوم الأربعاء <span class="date">28/10/2026</span> تُسعَّر طلب تغيير.
+    </div>
+
+    <footer>
+      ROOTK Systems · خطة تسليم Crown · خط الأساس: الخميس 15/10/2026 ·
+      الدعم المكثف: 04/02/2027 → 17/02/2027 · الضمان حتى 02/02/2028
+    </footer>
+  </div>
+
+  <script>
+    const MODULES = [
+      { id:10, name:"الموارد البشرية وإدارة الموظفين", track:"B", days:5,
+        start:["الخميس","29/10/2026"], demo:["الأربعاء","04/11/2026"], accept:["الاثنين","09/11/2026"],
+        clientDue:["الاثنين","26/10/2026"], depends:"اعتماد وثيقة المتطلبات — الأربعاء 28/10/2026",
+        exit:"هيكل الشركة وملف موظف كامل من التعيين حتى إنهاء الخدمة على بيانات Crown التجريبية.",
+        client:"الهيكل التنظيمي وملف موظف نموذجي." },
+      { id:1, name:"CRM وتطوير الأعمال والمناقصات", track:"A", days:8,
+        start:["الخميس","29/10/2026"], demo:["الاثنين","09/11/2026"], accept:["الخميس","12/11/2026"],
+        clientDue:["الاثنين","26/10/2026"], depends:"اعتماد وثيقة المتطلبات — الأربعاء 28/10/2026",
+        exit:"مسار عميل → فرصة → مناقصة → قرار التقدم/الانسحاب → فوز/خسارة، مع موافقة واحدة على الأقل.",
+        client:"قائمة عملاء، مراحل المناقصة، ومصفوفة اعتماد العطاء." },
+      { id:11, name:"الحضور والإجازات والرواتب", track:"B", days:5,
+        start:["الخميس","05/11/2026"], demo:["الأربعاء","11/11/2026"], accept:["الاثنين","16/11/2026"],
+        clientDue:["الاثنين","02/11/2026"], depends:"قبول الوحدة 10 — الاثنين 09/11/2026",
+        exit:"وردية، طلب إجازة، وقسيمة راتب واحدة لموظف تجريبي مع قيد محاسبي جاهز للربط.",
+        client:"لائحة الإجازات ومكونات الراتب والورديات." },
+      { id:2, name:"المبيعات والعروض والعقود", track:"A", days:6,
+        start:["الثلاثاء","10/11/2026"], demo:["الثلاثاء","17/11/2026"], accept:["الأحد","22/11/2026"],
+        clientDue:["الأربعاء","04/11/2026"], depends:"عرض الوحدة 1 — الاثنين 09/11/2026",
+        exit:"فرصة مقبولة تتحول إلى عرض سعر ثم عقد بمراحل واحتجاز ودفعة مقدمة.",
+        client:"كتالوج الخدمات ونموذج العرض وبنود العقد." },
+      { id:12, name:"المالية والمحاسبة", track:"B", days:12,
+        start:["الخميس","12/11/2026"], demo:["الأحد","29/11/2026"], accept:["الخميس","03/12/2026"],
+        clientDue:["الاثنين","09/11/2026"], depends:"دليل الحسابات من الاكتشاف — الأربعاء 28/10/2026",
+        exit:"سنة مالية، قيد يومية، فاتورة عميل، فاتورة مورد، بنك، وتسوية.",
+        client:"دليل الحسابات والأرصدة الافتتاحية وحسابات البنوك وإعداد الضريبة." },
+      { id:3, name:"إدارة المشاريع وPMO", track:"A", days:8,
+        start:["الخميس","19/11/2026"], demo:["الاثنين","30/11/2026"], accept:["الخميس","03/12/2026"],
+        clientDue:["الاثنين","16/11/2026"], depends:"عرض الوحدة 2 — الثلاثاء 17/11/2026",
+        exit:"عقد يفتح مشروعًا بهيكل WBS ومهمة واعتمادية وسجل مخاطر، والمخطط مقابل الفعلي ظاهر.",
+        client:"هيكل WBS نموذجي وأنواع سجلات التحكم." },
+      { id:6, name:"الجودة وضمان/مراقبة الجودة", track:"B", days:5,
+        start:["الاثنين","30/11/2026"], demo:["الأحد","06/12/2026"], accept:["الأربعاء","09/12/2026"],
+        clientDue:["الأربعاء","25/11/2026"], depends:"اعتماد وثيقة المتطلبات — الأربعاء 28/10/2026",
+        exit:"إجراء جودة، فحص، وعدم مطابقة.",
+        client:"إجراءات الجودة وقوالب الفحص وبوابات الجودة." },
+      { id:4, name:"العمليات الهندسية وتخطيط الموارد", track:"A", days:7,
+        start:["الثلاثاء","01/12/2026"], demo:["الأربعاء","09/12/2026"], accept:["الاثنين","14/12/2026"],
+        clientDue:["الأربعاء","25/11/2026"], depends:"عرض الوحدة 3 — الاثنين 30/11/2026",
+        exit:"تخصيص مهندس على مهمة، كشف ساعات معتمد، ونسبة استغلال للمشروع.",
+        client:"التخصصات ومعدلات التكلفة والفوترة وتقويم العمل." },
+      { id:13, name:"مصروفات الموظفين والدعم الداخلي", track:"B", days:3,
+        start:["الاثنين","07/12/2026"], demo:["الأربعاء","09/12/2026"], accept:["الاثنين","14/12/2026"],
+        clientDue:["الأربعاء","02/12/2026"], depends:"عرض الوحدة 12 — الأحد 29/11/2026",
+        exit:"سلفة ومطالبة مصروف مرحّلة على مشروع، وتذكرة دعم داخلية تُغلق.",
+        client:"أنواع المصروفات وسياسة السلف." },
+      { id:8, name:"المشتريات والموردون والاستشاريون", track:"B", days:6,
+        start:["الخميس","10/12/2026"], demo:["الخميس","17/12/2026"], accept:["الثلاثاء","22/12/2026"],
+        clientDue:["الاثنين","07/12/2026"], depends:"قبول الوحدتين 3 و12 — الخميس 03/12/2026",
+        exit:"طلب شراء → عروض → ترسية → أمر شراء → استلام، مع إيقاف عند تجاوز ميزانية المشروع.",
+        client:"دورة الشراء ومعايير تأهيل الموردين." },
+      { id:5, name:"المخرجات الهندسية والتحكم في المستندات", track:"A", days:7,
+        start:["الخميس","10/12/2026"], demo:["الأحد","20/12/2026"], accept:["الأربعاء","23/12/2026"],
+        clientDue:["الاثنين","07/12/2026"], depends:"عرض الوحدة 3 — الاثنين 30/11/2026",
+        exit:"مخرج هندسي يمر مهندسًا ثم مراجعًا ثم معتمدًا، مع مراجعة وترقيم وإرسال.",
+        client:"نظام ترقيم المستندات وأدوار المراجعة." },
+      { id:9, name:"المخزون والمستودعات والأصول", track:"B", days:5,
+        start:["الأحد","20/12/2026"], demo:["الخميس","24/12/2026"], accept:["الثلاثاء","29/12/2026"],
+        clientDue:["الثلاثاء","15/12/2026"], depends:"عرض الوحدة 8 — الخميس 17/12/2026",
+        exit:"صنف يدخل المستودع من أمر الشراء، يُصرف لمشروع، وأصل ثابت بعهدة وإهلاك.",
+        client:"الأصناف والمستودعات ووحدات القياس." },
+      { id:7, name:"الرقابة التجارية وQS على المشروع", track:"A", days:6,
+        start:["الاثنين","21/12/2026"], demo:["الاثنين","28/12/2026"], accept:["الخميس","31/12/2026"],
+        clientDue:["الأربعاء","16/12/2026"], depends:"قبول الوحدة 5 — الأربعاء 23/12/2026",
+        exit:"مستخلص عميل من تقدم المشروع، مع احتجاز واسترداد دفعة مقدمة وهامش متوقع.",
+        client:"نموذج المستخلص وقواعد الاحتجاز." },
+      { id:14, name:"التقارير ولوحات المعلومات وذكاء الأعمال", track:"B", days:4,
+        start:["الأحد","27/12/2026"], demo:["الأربعاء","30/12/2026"], accept:["الاثنين","04/01/2027"],
+        clientDue:["الثلاثاء","22/12/2026"], depends:"عرض الوحدتين 8 و9 — الخميس 24/12/2026",
+        exit:"لوحة إدارة وثلاثة تقارير (مشروع، مالي، موارد) مع تصدير Excel وPDF.",
+        client:"قائمة المؤشرات المطلوبة." },
+      { id:15, name:"سير العمل والصلاحيات والإشعارات والتدقيق", track:"A", days:3,
+        start:["الثلاثاء","29/12/2026"], demo:["الخميس","31/12/2026"], accept:["الثلاثاء","05/01/2027"],
+        clientDue:["الأربعاء","23/12/2026"], depends:"عرض الوحدة 7 — الاثنين 28/12/2026",
+        exit:"مصفوفة موافقة نهائية، صلاحية حقل، إشعار، وسجل تدقيق على مستند حي.",
+        client:"مصفوفات الاعتماد النهائية لكل نوع مستند." },
+    ];
+
+    const MASTER = [
+      ["15/10/2026","الخميس","Kickoff","توقيع العقد · دفعة 40% · 72,000 ج.م · بدء الاكتشاف","pay"],
+      ["28/10/2026","الأربعاء","اعتماد","اعتماد وثيقة المتطلبات وخطط الترحيل والبيئات",""],
+      ["29/10/2026","الخميس","بناء","بدء الوحدتين 10 و1 بالتوازي",""],
+      ["04/11/2026","الأربعاء","عرض","عرض الوحدة 10 — الموارد البشرية",""],
+      ["09/11/2026","الاثنين","قبول+عرض","قبول الوحدة 10 · عرض الوحدة 1 — CRM",""],
+      ["11/11/2026","الأربعاء","عرض","عرض الوحدة 11 — الحضور والرواتب",""],
+      ["12/11/2026","الخميس","قبول+بناء","قبول الوحدة 1 · بدء الوحدة 12 — المالية",""],
+      ["16/11/2026","الاثنين","قبول","قبول الوحدة 11",""],
+      ["17/11/2026","الثلاثاء","عرض","عرض الوحدة 2 — المبيعات والعقود",""],
+      ["22/11/2026","الأحد","قبول","قبول الوحدة 2",""],
+      ["29/11/2026","الأحد","عرض","عرض الوحدة 12 — المالية",""],
+      ["30/11/2026","الاثنين","عرض+بناء","عرض الوحدة 3 · بدء الوحدتين 6 و4",""],
+      ["03/12/2026","الخميس","قبول","قبول الوحدتين 12 و3",""],
+      ["06/12/2026","الأحد","عرض","عرض الوحدة 6 — الجودة",""],
+      ["09/12/2026","الأربعاء","عرض+قبول","عرض 4 و13 · قبول الوحدة 6",""],
+      ["14/12/2026","الاثنين","قبول","قبول الوحدتين 4 و13",""],
+      ["17/12/2026","الخميس","عرض","عرض الوحدة 8 — المشتريات",""],
+      ["20/12/2026","الأحد","عرض+بناء","عرض الوحدة 5 · بدء الوحدة 9",""],
+      ["22/12/2026","الثلاثاء","قبول","قبول الوحدة 8",""],
+      ["23/12/2026","الأربعاء","قبول+دفعة","قبول الوحدة 5 · دفعة 30% · 54,000 ج.م","pay"],
+      ["24/12/2026","الخميس","عرض","عرض الوحدة 9 — المخزون والأصول",""],
+      ["28/12/2026","الاثنين","عرض","عرض الوحدة 7 — الرقابة التجارية",""],
+      ["29/12/2026","الثلاثاء","قبول+بناء","قبول الوحدة 9 · بدء الوحدة 15",""],
+      ["30/12/2026","الأربعاء","عرض","عرض الوحدة 14 — التقارير",""],
+      ["31/12/2026","الخميس","عرض+قبول","عرض الوحدة 15 · قبول الوحدة 7",""],
+      ["04/01/2027","الاثنين","قبول","قبول الوحدة 14",""],
+      ["05/01/2027","الثلاثاء","قبول","قبول الوحدة 15 — آخر وحدة بناء",""],
+      ["07/01/2027","الخميس","إجازة","عيد الميلاد — لا عمل رسمي","hol"],
+      ["10/01/2027","الأحد","UAT","بدء سيناريو الإيراد المتكامل",""],
+      ["13/01/2027","الأربعاء","UAT","إغلاق أسبوع 13 · ترحيل أولي",""],
+      ["14/01/2027","الخميس","UAT","بدء سيناريو التوريد والرواتب",""],
+      ["20/01/2027","الأربعاء","UAT","إغلاق أسبوع 14 · تدريب المستخدمين",""],
+      ["21/01/2027","الخميس","UAT","بدء اختبار قبول Crown",""],
+      ["25/01/2027","الاثنين","إجازة","إجازة رسمية — لا عمل","hol"],
+      ["27/01/2027","الأربعاء","اعتماد+دفعة","توقيع UAT · دفعة 20% · 36,000 ج.م","pay"],
+      ["28/01/2027","الخميس","قطع","تجميد الإنتاج",""],
+      ["31/01/2027","الأحد","ترحيل","ترحيل الأرصدة الافتتاحية",""],
+      ["02/02/2027","الثلاثاء","تحقق","تحقق ما بعد الترحيل",""],
+      ["03/02/2027","الأربعاء","تشغيل+دفعة","Go-Live · دفعة 10% · 18,000 ج.م","pay"],
+      ["04/02/2027","الخميس","دعم","بدء الدعم المكثف (10 أيام عمل)",""],
+      ["17/02/2027","الأربعاء","دعم","نهاية الدعم المكثف · بداية الضمان 12 شهرًا",""],
+      ["02/02/2028","الأربعاء","ضمان","نهاية الضمان المجاني لعيوب النطاق المعتمد",""],
+    ];
+
+    const WEEKS = [
+      [1,"15/10/2026","21/10/2026","اكتشاف","متطلبات · خرائط عمليات · بيئات · قوالب ترحيل"],
+      [2,"22/10/2026","28/10/2026","اكتشاف","اعتماد المتطلبات يوم 28/10/2026"],
+      [3,"29/10/2026","04/11/2026","بناء","وحدات 10 و1"],
+      [4,"05/11/2026","11/11/2026","بناء","وحدات 1 و11 و2"],
+      [5,"12/11/2026","18/11/2026","بناء","وحدات 2 و12"],
+      [6,"19/11/2026","25/11/2026","بناء","وحدات 12 و3"],
+      [7,"26/11/2026","02/12/2026","بناء","وحدات 12 و3 و6 و4"],
+      [8,"03/12/2026","09/12/2026","بناء","وحدات 6 و4 و13"],
+      [9,"10/12/2026","16/12/2026","بناء","وحدات 8 و5"],
+      [10,"17/12/2026","23/12/2026","بناء","وحدات 8 و5 و9 و7 · دفعة 30% يوم 23/12"],
+      [11,"24/12/2026","30/12/2026","بناء","وحدات 9 و7 و14 و15"],
+      [12,"31/12/2026","06/01/2027","بناء","قبول 14 و15 · جاهزية الاختبار"],
+      [13,"07/01/2027","13/01/2027","اختبار","سيناريو إيراد · 07/01 إجازة · عمل 10–13/01"],
+      [14,"14/01/2027","20/01/2027","اختبار","سيناريو توريد ورواتب · تدريب مستخدمين"],
+      [15,"21/01/2027","27/01/2027","اختبار","UAT Crown · 25/01 إجازة · توقيع 27/01"],
+      [16,"28/01/2027","03/02/2027","تشغيل","تجميد · ترحيل · تحقق · Go-Live 03/02/2027"],
+    ];
+
+    function d(pair) {
+      return `<span class="date-ar">${pair[0]}</span> <span class="date">${pair[1]}</span>`;
+    }
+
+    document.getElementById("modules-table").innerHTML = MODULES.map(m => `
+      <tr>
+        <td>${m.id}</td>
+        <td>${m.name}</td>
+        <td><span class="tag ${m.track.toLowerCase()}">${m.track === "A" ? "أعمال A" : "تشغيل B"}</span></td>
+        <td>${m.days} أيام</td>
+        <td>${d(m.start)}</td>
+        <td>${d(m.demo)}</td>
+        <td>${d(m.accept)}</td>
+      </tr>
+    `).join("");
+
+    document.getElementById("modules-detail").innerHTML = MODULES.map(m => `
+      <div class="mod-card">
+        <div class="mod-head">
+          <strong>${m.id}. ${m.name}</strong>
+          <span class="tag ${m.track.toLowerCase()}">${m.track === "A" ? "مسار الأعمال A" : "مسار التشغيل B"} · ${m.days} أيام عمل</span>
+        </div>
+        <div class="mod-dates">
+          <div><div class="lbl">بدء البناء</div>${d(m.start)}</div>
+          <div><div class="lbl">يوم العرض</div>${d(m.demo)}</div>
+          <div><div class="lbl">آخر يوم قبول</div>${d(m.accept)}</div>
+          <div><div class="lbl">بيانات العميل قبل</div>${d(m.clientDue)}</div>
+        </div>
+        <div class="mod-body">
+          <div><b>يعتمد على:</b> ${m.depends}</div>
+          <div style="margin-top:6px"><b>يُعدّ مسلَّمًا عندما:</b> ${m.exit}</div>
+          <div style="margin-top:6px"><b>ما يسلّمه العميل:</b> ${m.client}</div>
+        </div>
+      </div>
+    `).join("");
+
+    document.getElementById("master-table").innerHTML = MASTER.map(r => `
+      <tr>
+        <td><span class="date">${r[0]}</span></td>
+        <td>${r[1]}</td>
+        <td><span class="tag ${r[4] || ""}">${r[2]}</span></td>
+        <td>${r[3]}</td>
+      </tr>
+    `).join("");
+
+    document.getElementById("weeks-table").innerHTML = WEEKS.map(w => `
+      <tr>
+        <td>أ${w[0]}</td>
+        <td><span class="date">${w[1]}</span></td>
+        <td><span class="date">${w[2]}</span></td>
+        <td>${w[3]}</td>
+        <td>${w[4]}</td>
+      </tr>
+    `).join("");
+  </script>
+</body>
+</html>

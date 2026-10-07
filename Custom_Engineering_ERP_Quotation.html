@@ -92,6 +92,51 @@
     }
     .lang-toggle button[aria-pressed="true"] { background: #fff; color: var(--navy); }
 
+    .topbar-actions {
+      display: flex; align-items: center; gap: 8px; flex-shrink: 0;
+    }
+    .btn-delivery {
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: inherit; font-size: 12.5px; font-weight: 700;
+      text-decoration: none; white-space: nowrap;
+      background: #fff; color: var(--navy-deep);
+      border: 1px solid rgba(255,255,255,.35);
+      border-radius: 999px; padding: 8px 14px; min-height: 36px;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn-delivery:hover { background: #eef2fb; }
+    @media (max-width: 520px) {
+      .btn-delivery .btn-delivery-full { display: none; }
+    }
+    @media (min-width: 521px) {
+      .btn-delivery .btn-delivery-short { display: none; }
+    }
+
+    .delivery-cta {
+      margin-top: 16px;
+      display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+      gap: 14px; padding: 16px 18px;
+      border: 1.5px solid rgba(8,40,104,.22);
+      border-radius: 12px; background: linear-gradient(135deg, #eef2fb 0%, #f7f8fc 100%);
+    }
+    .delivery-cta .cta-copy { flex: 1; min-width: 200px; }
+    .delivery-cta .cta-title {
+      font-size: 15px; font-weight: 700; color: var(--navy-deep); margin-bottom: 4px;
+    }
+    .delivery-cta .cta-desc { font-size: 13px; color: var(--muted); line-height: 1.45; }
+    .delivery-cta .cta-btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: inherit; font-size: 13.5px; font-weight: 700;
+      text-decoration: none; white-space: nowrap;
+      background: var(--navy); color: #fff;
+      border-radius: 10px; padding: 12px 18px; min-height: 44px;
+      box-shadow: 0 6px 16px rgba(8,40,104,.18);
+    }
+    .delivery-cta .cta-btn:hover { background: var(--navy-deep); }
+    @media print {
+      .btn-delivery, .delivery-cta { display: none !important; }
+    }
+
     .page { max-width: 880px; margin: 0 auto; padding: 20px 12px 48px; }
     .sheet {
       background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 28px 22px;
@@ -1053,7 +1098,12 @@ const COPY = {
     planDiscovery: "الاكتشاف وتحليل الأعمال",
     planDelivery: "تسليم الوحدات المختارة",
     planGoLive: "اختبار القبول وشهر الاختبار والتدريب والتشغيل",
-    planConfigured: "تهيئة وتسليم"
+    planConfigured: "تهيئة وتسليم",
+    deliveryBtnShort: "جدول التسليم",
+    deliveryBtnFull: "جدول التسليم النهائي",
+    deliveryCtaTitle: "جدول التسليم النهائي — وحدة بوحدة",
+    deliveryCtaDesc: "تواريخ محددة من 15/10/2026 إلى 03/02/2027: بدء البناء، يوم العرض، وآخر يوم قبول لكل وحدة، مع التقويم والدفعات.",
+    deliveryCtaBtn: "عرض جدول التسليم النهائي"
   },
   en: {
     docType: "Commercial Quotation",
@@ -1124,7 +1174,12 @@ const COPY = {
     planDiscovery: "Discovery & Business Analysis",
     planDelivery: "Selected Modules Delivery",
     planGoLive: "UAT, 1-Month Testing, Training & Go-Live",
-    planConfigured: "Configured & delivered"
+    planConfigured: "Configured & delivered",
+    deliveryBtnShort: "Delivery plan",
+    deliveryBtnFull: "Final delivery schedule",
+    deliveryCtaTitle: "Final delivery schedule — module by module",
+    deliveryCtaDesc: "Fixed dates from 15/10/2026 to 03/02/2027: build start, demo day, and acceptance deadline per module, plus calendar and payments.",
+    deliveryCtaBtn: "Open final delivery schedule"
   }
 };
 </script>
@@ -1136,9 +1191,15 @@ const COPY = {
     </span>
     <span id="bar-company">Rootk Systems</span>
   </div>
-  <div class="lang-toggle" role="group" aria-label="Language">
-    <button type="button" id="btn-ar" aria-pressed="false">عربي</button>
-    <button type="button" id="btn-en" aria-pressed="true">EN</button>
+  <div class="topbar-actions">
+    <a class="btn-delivery" id="btn-delivery-top" href="delivery-plan.html">
+      <span class="btn-delivery-full" id="btn-delivery-full">جدول التسليم النهائي</span>
+      <span class="btn-delivery-short" id="btn-delivery-short">جدول التسليم</span>
+    </a>
+    <div class="lang-toggle" role="group" aria-label="Language">
+      <button type="button" id="btn-ar" aria-pressed="false">عربي</button>
+      <button type="button" id="btn-en" aria-pressed="true">EN</button>
+    </div>
   </div>
 </header>
 
@@ -1275,6 +1336,13 @@ const COPY = {
       <div class="sec-label">02</div>
       <h2 id="h-s04">خطة التنفيذ</h2>
       <div id="weeks"></div>
+      <aside class="delivery-cta" aria-label="Final delivery schedule">
+        <div class="cta-copy">
+          <div class="cta-title" id="delivery-cta-title">جدول التسليم النهائي — وحدة بوحدة</div>
+          <div class="cta-desc" id="delivery-cta-desc">تواريخ محددة من 15/10/2026 إلى 03/02/2027: بدء البناء، يوم العرض، وآخر يوم قبول لكل وحدة، مع التقويم والدفعات.</div>
+        </div>
+        <a class="cta-btn" id="delivery-cta-btn" href="delivery-plan.html">عرض جدول التسليم النهائي</a>
+      </aside>
     </section>
 
     <section id="sec-payments">
@@ -1568,6 +1636,17 @@ function renderStatic() {
 
   document.getElementById("btn-select-all").textContent = c.selectAll;
   document.getElementById("btn-clear-all").textContent = c.clearAll;
+
+  const btnDelFull = document.getElementById("btn-delivery-full");
+  const btnDelShort = document.getElementById("btn-delivery-short");
+  if (btnDelFull) btnDelFull.textContent = c.deliveryBtnFull;
+  if (btnDelShort) btnDelShort.textContent = c.deliveryBtnShort;
+  const ctaTitle = document.getElementById("delivery-cta-title");
+  const ctaDesc = document.getElementById("delivery-cta-desc");
+  const ctaBtn = document.getElementById("delivery-cta-btn");
+  if (ctaTitle) ctaTitle.textContent = c.deliveryCtaTitle;
+  if (ctaDesc) ctaDesc.textContent = c.deliveryCtaDesc;
+  if (ctaBtn) ctaBtn.textContent = c.deliveryCtaBtn;
   document.getElementById("sel-info").textContent =
     `${selectedIds.size} / ${CONFIG.MODULES.length} ${c.selectedCount}`;
 
