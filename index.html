@@ -1338,8 +1338,8 @@ const COPY = {
       <div id="weeks"></div>
       <aside class="delivery-cta" aria-label="Final delivery schedule">
         <div class="cta-copy">
-          <div class="cta-title" id="delivery-cta-title">الجدول الزمني النهائي للتسليم — وحدة تلو الأخرى</div>
-          <div class="cta-desc" id="delivery-cta-desc">مواعيد محددة من 15/10/2026 إلى 03/02/2027: بداية التنفيذ، ويوم العرض، وآخر موعد للقبول لكل وحدة، مع التقويم والدفعات.</div>
+          <div class="cta-title" id="delivery-cta-title">الجدول الزمني النهائي للتسليم — وحدة بوحدة</div>
+          <div class="cta-desc" id="delivery-cta-desc">مواعيد محددة من ١٥/١٠/٢٠٢٦ إلى ٠٣/٠٢/٢٠٢٧: بداية التنفيذ، ويوم العرض، وآخر موعد لقبول كل وحدة، مع التقويم والدفعات.</div>
         </div>
         <a class="cta-btn" id="delivery-cta-btn" href="delivery-plan.html">عرض الجدول الزمني النهائي للتسليم</a>
       </aside>
@@ -1883,7 +1883,7 @@ function buildPlanRows() {
   const testWeeks = Math.max(1, Number(dur.testWeeks || 1));
   const testLabel = formatTestDuration(dur, L);
   const goLiveTitle = L === "ar"
-    ? `اختبار القبول والتدريب والتشغيل (${testLabel})`
+    ? `اختبار القبول والتدريب والتشغيل الفعلي (${testLabel})`
     : `UAT, Training & Go-Live (${testLabel})`;
 
   let cursor = 1;
