@@ -212,16 +212,65 @@
       color: var(--muted);
       border-top: 1px solid var(--line);
       padding-top: 14px;
+      line-height: 1.6;
     }
-    @media (max-width: 800px) {
-      .kpis, .mod-dates, .tracks { grid-template-columns: 1fr 1fr; }
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border-radius: 12px;
+      margin-bottom: 8px;
+    }
+    .table-wrap table { margin: 0; min-width: 720px; }
+    .work-days {
+      direction: ltr;
+      unicode-bidi: plaintext;
+      font-weight: 700;
+      color: var(--navy);
+      font-variant-numeric: tabular-nums;
+      white-space: normal;
+      word-break: break-word;
+    }
+    .desktop-only { display: block; }
+    .mobile-only { display: none; }
+
+    @media (max-width: 900px) {
+      .kpis { grid-template-columns: 1fr 1fr; }
       .mod-dates { grid-template-columns: 1fr 1fr; }
       .mod-dates div { border-left: none; border-bottom: 1px solid var(--line); }
+      .tracks { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .wrap { padding: 14px 10px 48px; }
+      .topbar { padding-inline: 10px; gap: 8px; }
+      .topbar-brand span { display: none; }
+      .btn-back { font-size: 12px; padding: 8px 12px; }
+      .doc-header { padding: 18px 14px 16px; }
+      .kpis { grid-template-columns: 1fr 1fr; gap: 8px; margin: 14px 0; }
+      .kpi { padding: 12px; }
+      .kpi .v { font-size: 16px; }
+      .kpi .l { font-size: 11px; }
+      h2 { font-size: 16px; margin: 24px 0 10px; }
+      .note { font-size: 13px; padding: 12px; }
+      .desktop-only { display: none !important; }
+      .mobile-only { display: block; }
+      .table-wrap table { min-width: 560px; font-size: 12px; }
+      .mod-dates { grid-template-columns: 1fr; }
+      .mod-dates div { border-bottom: 1px solid var(--line); }
+      .mod-head strong { font-size: 14px; }
+      th, td { padding: 8px 10px; }
+      footer { font-size: 11px; }
+    }
+    @media (max-width: 400px) {
+      .kpis { grid-template-columns: 1fr; }
     }
     @media print {
       body { background: #fff; }
       .wrap { max-width: none; padding: 0; }
       .mod-card, table, header, .kpi, .note, .warn, .track-box { break-inside: avoid; }
+      .topbar, .btn-back { display: none !important; }
+      .desktop-only { display: block !important; }
+      .mobile-only { display: none !important; }
     }
   </style>
 </head>
@@ -241,7 +290,8 @@
       <p class="sub">
         الباقة الكاملة: ١٥ وحدة · ١٨٠٬٠٠٠ جنيه مصري ·
         من <span class="date">15/10/2026</span> إلى <span class="date">07/02/2027</span> ·
-        أيام العمل فقط: الأحد–الخميس (الجمعة والسبت خارج الجدول) </p>
+        أيام العمل فقط: الأحد–الخميس (الجمعة والسبت والإجازات الرسمية خارج الجدول)
+      </p>
     </header>
 
     <div class="kpis">
@@ -251,49 +301,58 @@
       <div class="kpi"><div class="v">07/02/2027</div><div class="l">التشغيل الفعلي</div></div>
     </div>
 
-        <div class="note">
+    <div class="note">
       <b>قاعدة التسليم:</b>
-      الجدول يعرض أيام العمل فقط. الجمعة والسبت ليسا ضمن الجدول، وكذلك الإجازات الرسمية (٦ أكتوبر ٢٠٢٦، و٧ يناير ٢٠٢٧، و٢٥ يناير ٢٠٢٧).
-      مثال: لو التنفيذ من الخميس ٢٩/١٠ إلى الأربعاء ٠٤/١١ فأيام العمل هي: ٢٩/١٠ و٠١/١١ و٠٢/١١ و٠٣/١١ و٠٤/١١ فقط — بدون ٣٠/١٠ (جمعة) و٣١/١٠ (سبت).
-      عمود «أيام التنفيذ» يسرد التواريخ الفعلية للعمل. القبول خلال ثلاثة أيام عمل بعد العرض.
+      الجدول يعرض أيام العمل فقط. مستبعد تمامًا: الجمعة، والسبت، والإجازات الرسمية (٦ أكتوبر ٢٠٢٦، و٧ يناير ٢٠٢٧، و٢٥ يناير ٢٠٢٧).
+      مثال: التنفيذ من ٢٩/١٠ إلى ٠٤/١١ = أيام العمل <span class="work-days">29/10، 01/11، 02/11، 03/11، 04/11</span> فقط — بدون ٣٠/١٠ (جمعة) و٣١/١٠ (سبت).
+      وفي يناير: ٢٥/٠١ إجازة رسمية فلا يظهر في أيام الاختبار (يظهر ٢٤ ثم ٢٦).
+      عمود «أيام التنفيذ» يسرد التواريخ الفعلية للعمل فقط. القبول خلال ثلاثة أيام عمل بعد العرض.
     </div>
 
-    <h2>١) مسار التسليم الواحد — موعد محدد لكل وحدة</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>الترتيب</th>
-          <th>الوحدة</th>
-          <th>أيام العمل</th>
-          <th>أول يوم عمل</th>
-          <th>آخر يوم عمل (العرض)</th>
-          <th>آخر موعد للقبول</th>
-          <th>أيام التنفيذ (بدون جمعة وسبت)</th>
-        </tr>
-      </thead>
-      <tbody id="modules-table"></tbody>
-    </table>
+    <h2 class="desktop-only">١) مسار التسليم الواحد — موعد محدد لكل وحدة</h2>
+    <div class="table-wrap desktop-only">
+      <table>
+        <thead>
+          <tr>
+            <th>الترتيب</th>
+            <th>الوحدة</th>
+            <th>أيام العمل</th>
+            <th>أول يوم عمل</th>
+            <th>آخر يوم عمل (العرض)</th>
+            <th>آخر موعد للقبول</th>
+            <th>أيام التنفيذ (بدون جمعة وسبت وإجازات)</th>
+          </tr>
+        </thead>
+        <tbody id="modules-table"></tbody>
+      </table>
+    </div>
 
     <h2>٢) تفاصيل كل وحدة</h2>
+    <p class="mobile-only" style="font-size:13px;color:var(--muted);margin:-4px 0 12px">على الموبايل تُعرض الوحدات كبطاقات أوضح للقراءة.</p>
     <div id="modules-detail"></div>
 
     <h2>٣) التقويم الرئيسي — كل محطة بتاريخها</h2>
-    <table>
-      <thead>
-        <tr><th>التاريخ</th><th>اليوم</th><th>النوع</th><th>ما يُنفَّذ في هذا اليوم</th></tr>
-      </thead>
-      <tbody id="master-table"></tbody>
-    </table>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>التاريخ</th><th>اليوم</th><th>النوع</th><th>ما يُنفَّذ في هذا اليوم</th></tr>
+        </thead>
+        <tbody id="master-table"></tbody>
+      </table>
+    </div>
 
     <h2>٤) الأسابيع الستة عشر</h2>
-    <table>
-      <thead>
-        <tr><th>الأسبوع</th><th>من</th><th>إلى</th><th>المرحلة</th><th>المحتوى</th></tr>
-      </thead>
-      <tbody id="weeks-table"></tbody>
-    </table>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>الأسبوع</th><th>من</th><th>إلى</th><th>المرحلة</th><th>المحتوى</th></tr>
+        </thead>
+        <tbody id="weeks-table"></tbody>
+      </table>
+    </div>
 
     <h2>٥) الدفعات — مواعيد الاستحقاق</h2>
+    <div class="table-wrap">
     <table>
       <thead>
         <tr><th>النسبة</th><th>القيمة</th><th>البوابة</th><th>تاريخ الاستحقاق</th><th>شرط الصرف</th></tr>
@@ -321,6 +380,7 @@
         </tr>
       </tbody>
     </table>
+    </div>
 
     <h2>٦) ترتيب التسليم على مسار واحد</h2>
     <div class="track-box" style="margin-bottom:16px">
@@ -477,7 +537,7 @@
       ["05/01/2027","الثلاثاء","قبول","قبول الوحدة 15",""],
       ["10/01/2027","الأحد","اختبار","بدء اختبار القبول — أيام العمل: 10/01، 11/01، 12/01، 13/01، 14/01",""],
       ["17/01/2027","الأحد","اختبار","التوريد والرواتب والتدريب — 17/01، 18/01، 19/01، 20/01، 21/01",""],
-      ["24/01/2027","الأحد","اختبار","اختبار القبول النهائي — 24/01، 26/01، 27/01، 28/01، 31/01",""],
+      ["24/01/2027","الأحد","اختبار","اختبار القبول النهائي — 24/01، 26/01، 27/01، 28/01، 31/01 (بدون 25/01 إجازة رسمية)",""],
       ["31/01/2027","الأحد","اعتماد ودفعة","اعتماد محضر اختبار القبول · دفعة ٢٠٪ بمبلغ ٣٦٬٠٠٠ ج.م","pay"],
       ["01/02/2027","الاثنين","تجهيز","التجميد والترحيل — 01/02، 02/02، 03/02",""],
       ["03/02/2027","الأربعاء","مراجعة","المراجعة بعد الترحيل",""],
@@ -499,10 +559,10 @@
       [9,"10/12/2026","16/12/2026","تنفيذ","وحدات 4 و13 و8 و5 · أيام العمل فقط: 10/12، 13/12، 14/12، 15/12، 16/12"],
       [10,"17/12/2026","23/12/2026","تنفيذ","وحدات 8 و5 و9 و7 · أيام العمل فقط: 17/12، 20/12، 21/12، 22/12، 23/12 · دفعة ٣٠٪ 23/12/2026"],
       [11,"24/12/2026","30/12/2026","تنفيذ","وحدات 9 و7 و14 و15 · أيام العمل فقط: 24/12، 27/12، 28/12، 29/12، 30/12"],
-      [12,"31/12/2026","06/01/2027","تنفيذ","قبول أواخر الوحدات · أيام العمل فقط: 31/12، 03/01، 04/01، 05/01، 06/01"],
+      [12,"31/12/2026","06/01/2027","تنفيذ","قبول أواخر الوحدات · أيام العمل فقط: 31/12، 03/01، 04/01، 05/01، 06/01 (بدون 01–02/01 جمعة وسبت، وبدون 07/01 إجازة رسمية)"],
       [13,"10/01/2027","14/01/2027","اختبار","أيام العمل فقط: 10/01، 11/01، 12/01، 13/01، 14/01"],
       [14,"17/01/2027","21/01/2027","اختبار","أيام العمل فقط: 17/01، 18/01، 19/01، 20/01، 21/01"],
-      [15,"24/01/2027","31/01/2027","اختبار","أيام العمل فقط: 24/01، 26/01، 27/01، 28/01، 31/01 · الاعتماد 31/01/2027"],
+      [15,"24/01/2027","31/01/2027","اختبار","أيام العمل فقط: 24/01، 26/01، 27/01، 28/01، 31/01 (بدون 25/01 إجازة رسمية) · الاعتماد 31/01/2027"],
       [16,"01/02/2027","07/02/2027","تشغيل","أيام العمل فقط: 01/02، 02/02، 03/02، 04/02، 07/02 · التشغيل 07/02/2027"],
     ];
 
@@ -518,7 +578,7 @@
         <td>${d(m.start)}</td>
         <td>${d(m.demo)}</td>
         <td>${d(m.accept)}</td>
-        <td style="direction:ltr;unicode-bidi:plaintext;font-weight:700;color:#082868;white-space:nowrap">${m.workList}</td>
+        <td><span class="work-days">${m.workList}</span></td>
       </tr>
     `).join("");
 
@@ -535,7 +595,7 @@
           <div><div class="lbl">تسليم بيانات العميل قبل</div>${d(m.clientDue)}</div>
         </div>
         <div class="mod-body">
-          <div><b>أيام التنفيذ (بدون جمعة وسبت):</b> <span style="direction:ltr;unicode-bidi:plaintext;font-weight:700;color:#082868">${m.workList}</span></div>
+          <div><b>أيام التنفيذ (بدون جمعة وسبت وإجازات):</b> <span class="work-days">${m.workList}</span></div>
           <div style="margin-top:6px"><b>الشرط السابق:</b> ${m.depends}</div>
           <div style="margin-top:6px"><b>تُقبل الوحدة عند تحقق الآتي:</b> ${m.exit}</div>
           <div style="margin-top:6px"><b>المطلوب من العميل:</b> ${m.client}</div>
