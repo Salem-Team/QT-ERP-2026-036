@@ -27,7 +27,7 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           port: 22
-          source: index.html,Custom_Engineering_ERP_Quotation.html,delivery-plan.html,logo.png,deploy
+          source: index.html,Custom_Engineering_ERP_Quotation.html,delivery-plan.html,Crown-ERP-Delivery-Plan-Modules.docx,logo.png,deploy
           target: /var/www/QT-ERP-2026-036
           overwrite: true
 
