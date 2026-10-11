@@ -94,7 +94,7 @@
       border-radius: 12px;
       padding: 16px 18px;
     }
-    .kpi .v { font-size: 20px; font-weight: 700; color: var(--navy); direction: ltr; unicode-bidi: plaintext; }
+    .kpi .v { font-size: 16px; font-weight: 700; color: var(--navy); line-height: 1.45; }
     .kpi .l { font-size: 12px; color: var(--muted); margin-top: 4px; }
     h2 {
       font-size: 18px;
@@ -292,28 +292,25 @@
       <h1>الجدول الزمني النهائي للتسليم — وحدة بوحدة</h1>
       <p class="sub">
         الباقة الكاملة: ١٥ وحدة · ١٨٠٬٠٠٠ جنيه مصري ·
-        من <span class="date">15/10/2026</span> إلى <span class="date">07/02/2027</span> ·
         أيام العمل فقط: الأحد–الخميس (الجمعة والسبت والإجازات الرسمية خارج الجدول)
       </p>
     </header>
 
     <div class="kpis">
-      <div class="kpi"><div class="v">15/10/2026</div><div class="l">بداية المشروع ودفعة ٤٠٪</div></div>
-      <div class="kpi"><div class="v">28/10/2026</div><div class="l">اعتماد المتطلبات</div></div>
-      <div class="kpi"><div class="v">05/01/2027</div><div class="l">قبول آخر وحدة</div></div>
-      <div class="kpi"><div class="v">07/02/2027</div><div class="l">التشغيل الفعلي</div></div>
+      <div class="kpi"><div class="v">بداية المشروع ودفعة ٤٠٪</div></div>
+      <div class="kpi"><div class="v">اعتماد المتطلبات</div></div>
+      <div class="kpi"><div class="v">قبول آخر وحدة</div></div>
+      <div class="kpi"><div class="v">التشغيل الفعلي</div></div>
     </div>
 
     <div class="note">
       <b>قاعدة التسليم:</b>
-      الجدول يعرض أيام العمل فقط. مستبعد تمامًا: الجمعة، والسبت، والإجازات الرسمية (٦ أكتوبر ٢٠٢٦، و٧ يناير ٢٠٢٧، و٢٥ يناير ٢٠٢٧).
-      مثال: التنفيذ من ٢٩/١٠ إلى ٠٤/١١ = أيام العمل <span class="work-days">29/10، 01/11، 02/11، 03/11، 04/11</span> فقط — بدون ٣٠/١٠ (جمعة) و٣١/١٠ (سبت).
-      وفي يناير: ٢٥/٠١ إجازة رسمية فلا يظهر في أيام الاختبار (يظهر ٢٤ ثم ٢٦).
-      قبل تنفيذ كل وحدة ثلاثة أيام عمل للاتفاق مع العميل على المطلوب من هذه الوحدة (ماذا يحتاج، وما الذي يسلّمه). هذه الأيام ضمن أيام العمل، وتستبعد الجمعة والسبت والإجازات. مثال الوحدة الأولى: الاتفاق <span class="work-days">26/10، 27/10، 28/10</span> ثم التنفيذ من 29/10.
-      عمود «أيام التنفيذ» يسرد التواريخ الفعلية للعمل فقط. القبول خلال ثلاثة أيام عمل بعد العرض.
+      الجدول يعرض أيام العمل فقط. مستبعد تمامًا: الجمعة، والسبت، والإجازات الرسمية.
+      قبل تنفيذ كل وحدة ثلاثة أيام عمل للاتفاق مع العميل على المطلوب من هذه الوحدة (ماذا يحتاج، وما الذي يسلّمه). هذه الأيام ضمن أيام العمل، وتستبعد الجمعة والسبت والإجازات.
+      القبول خلال ثلاثة أيام عمل بعد العرض.
     </div>
 
-    <h2 class="desktop-only">١) مسار التسليم الواحد — موعد محدد لكل وحدة</h2>
+    <h2 class="desktop-only">١) مسار التسليم الواحد — وحدة بوحدة</h2>
     <div class="table-wrap desktop-only">
       <table>
         <thead>
@@ -322,10 +319,7 @@
             <th>الوحدة</th>
             <th>أيام الاتفاق مع العميل</th>
             <th>أيام العمل</th>
-            <th>أول يوم عمل</th>
-            <th>آخر يوم عمل (العرض)</th>
-            <th>آخر موعد للقبول</th>
-            <th>أيام التنفيذ (بدون جمعة وسبت وإجازات)</th>
+            <th>القبول</th>
           </tr>
         </thead>
         <tbody id="modules-table"></tbody>
@@ -334,16 +328,16 @@
 
     <h2>٢) تفاصيل كل وحدة</h2>
     <p style="font-size:13px;margin:-4px 0 12px">
-      <a href="Crown-ERP-Delivery-Plan-Modules.docx" download style="color:var(--navy);font-weight:700">تحميل ملف Word واحد بكل الوحدات ومواعيدهم</a>
+      <a href="Crown-ERP-Delivery-Plan-Modules.docx" download style="color:var(--navy);font-weight:700">تحميل ملف Word واحد بكل الوحدات</a>
     </p>
     <p class="mobile-only" style="font-size:13px;color:var(--muted);margin:-4px 0 12px">على الموبايل تُعرض الوحدات كبطاقات أوضح للقراءة.</p>
     <div id="modules-detail"></div>
 
-    <h2>٣) التقويم الرئيسي — كل محطة بتاريخها</h2>
+    <h2>٣) التقويم الرئيسي — كل محطة</h2>
     <div class="table-wrap">
       <table>
         <thead>
-          <tr><th>التاريخ</th><th>اليوم</th><th>النوع</th><th>ما يُنفَّذ في هذا اليوم</th></tr>
+          <tr><th>النوع</th><th>ما يُنفَّذ</th></tr>
         </thead>
         <tbody id="master-table"></tbody>
       </table>
@@ -353,37 +347,33 @@
     <div class="table-wrap">
       <table>
         <thead>
-          <tr><th>الأسبوع</th><th>من</th><th>إلى</th><th>المرحلة</th><th>المحتوى</th></tr>
+          <tr><th>الأسبوع</th><th>المرحلة</th><th>المحتوى</th></tr>
         </thead>
         <tbody id="weeks-table"></tbody>
       </table>
     </div>
 
-    <h2>٥) الدفعات — مواعيد الاستحقاق</h2>
+    <h2>٥) الدفعات</h2>
     <div class="table-wrap">
     <table>
       <thead>
-        <tr><th>النسبة</th><th>القيمة</th><th>البوابة</th><th>تاريخ الاستحقاق</th><th>شرط الصرف</th></tr>
+        <tr><th>النسبة</th><th>القيمة</th><th>البوابة</th><th>شرط الصرف</th></tr>
       </thead>
       <tbody>
         <tr>
-          <td>40%</td><td>72,000 ج.م</td><td>توقيع العقد وبدء المشروع</td>
-          <td><span class="date-ar">الخميس</span> <span class="date">15/10/2026</span></td>
+          <td>40%</td><td>72,000 ج.م</td>          <td>توقيع العقد وبدء المشروع</td>
           <td>قبل بداية أي تنفيذ</td>
         </tr>
         <tr>
-          <td>30%</td><td>54,000 ج.م</td><td>تسليم الوحدات الأساسية</td>
-          <td><span class="date-ar">الأربعاء</span> <span class="date">23/12/2026</span></td>
+          <td>30%</td><td>54,000 ج.م</td>          <td>تسليم الوحدات الأساسية</td>
           <td>قبول الوحدات 1 و2 و3 و4 و5 و6 و12</td>
         </tr>
         <tr>
-          <td>20%</td><td>36,000 ج.م</td><td>اعتماد اختبار القبول</td>
-          <td><span class="date-ar">الأحد</span> <span class="date">31/01/2027</span></td>
+          <td>20%</td><td>36,000 ج.م</td>          <td>اعتماد اختبار القبول</td>
           <td>قبول كل الوحدات واعتماد محضر اختبار القبول</td>
         </tr>
         <tr>
-          <td>10%</td><td>18,000 ج.م</td><td>التشغيل الفعلي</td>
-          <td><span class="date-ar">الأحد</span> <span class="date">07/02/2027</span></td>
+          <td>10%</td><td>18,000 ج.م</td>          <td>التشغيل الفعلي</td>
           <td>التحويل لبيئة التشغيل</td>
         </tr>
       </tbody>
@@ -396,8 +386,8 @@
     </div>
 
     <footer>
-      روتك سيستمز · خطة تسليم Crown · خط الأساس: الخميس ١٥/١٠/٢٠٢٦ ·
-      الدعم المكثف من ٠٨/٠٢/٢٠٢٧ إلى ٢١/٠٢/٢٠٢٧ · الضمان حتى ٠٧/٠٢/٢٠٢٨
+      روتك سيستمز · خطة تسليم Crown ·
+      الدعم المكثف عشرة أيام عمل بعد التشغيل · الضمان لمدة ١٢ شهرًا
     </footer>
   </div>
 
@@ -583,26 +573,39 @@
       [10,"17/12/2026","23/12/2026","تنفيذ","اتفاق الوحدة 14: 22/12، 23/12، 24/12 · أيام العمل: 17/12، 20/12، 21/12، 22/12، 23/12 · دفعة ٣٠٪ 23/12/2026"],
       [11,"24/12/2026","30/12/2026","تنفيذ","اتفاق الوحدة 15: 24/12، 27/12، 28/12 · أيام العمل: 24/12، 27/12، 28/12، 29/12، 30/12"],
       [12,"31/12/2026","06/01/2027","تنفيذ","قبول أواخر الوحدات · أيام العمل فقط: 31/12، 03/01، 04/01، 05/01، 06/01 (بدون 01–02/01 جمعة وسبت، وبدون 07/01 إجازة رسمية)"],
-      [13,"10/01/2027","14/01/2027","اختبار","أيام العمل فقط: 10/01، 11/01، 12/01، 13/01، 14/01"],
-      [14,"17/01/2027","21/01/2027","اختبار","أيام العمل فقط: 17/01، 18/01، 19/01، 20/01، 21/01"],
-      [15,"24/01/2027","31/01/2027","اختبار","أيام العمل فقط: 24/01، 26/01، 27/01، 28/01، 31/01 (بدون 25/01 إجازة رسمية) · الاعتماد 31/01/2027"],
-      [16,"01/02/2027","07/02/2027","تشغيل","أيام العمل فقط: 01/02، 02/02، 03/02، 04/02، 07/02 · التشغيل 07/02/2027"],
+      [13,"","","اختبار","اختبار القبول"],
+      [14,"","","اختبار","التوريد والرواتب والتدريب"],
+      [15,"","","اختبار","اختبار القبول النهائي واعتماد المحضر"],
+      [16,"","","تشغيل","التجهيز ثم التشغيل الفعلي"],
     ];
 
-    function d(pair) {
-      return `<span class="date-ar">${pair[0]}</span> <span class="date">${pair[1]}</span>`;
+    function noDates(text) {
+      return String(text)
+        .replace(/\d{1,2}\/\d{1,2}\/\d{4}/g, "")
+        .replace(/\d{1,2}\/\d{1,2}(?:\s*،\s*\d{1,2}\/\d{1,2})+/g, "")
+        .replace(/\d{1,2}\/\d{1,2}/g, "")
+        .replace(/(?:الأحد|الاثنين|الثلاثاء|الأربعاء|الخميس|الجمعة|السبت)/g, "")
+        .replace(/أيام العمل فقط\s*:?/g, "")
+        .replace(/أيام العمل\s*:?/g, "")
+        .replace(/أيام الاتفاق\s*:?/g, "")
+        .replace(/\(\s*بدون[^)]*\)/g, "")
+        .replace(/:\s*(?=·|$)/g, "")
+        .replace(/\sفي\s*(?=·|$)/g, " ")
+        .replace(/\s*—\s*/g, " — ")
+        .replace(/(?:^|\s)—\s*(?=·|$)/g, " ")
+        .replace(/·+/g, " · ")
+        .replace(/\s{2,}/g, " ")
+        .replace(/^[\s·—،]+|[\s·—،]+$/g, "")
+        .trim();
     }
 
     document.getElementById("modules-table").innerHTML = MODULES.map(m => `
       <tr>
         <td>${m.seq}</td>
         <td>${m.id}. ${m.name}</td>
-        <td><span class="work-days">${m.agreeList}</span></td>
+        <td>٣ أيام عمل قبل التنفيذ</td>
         <td>${m.days} أيام عمل</td>
-        <td>${d(m.start)}</td>
-        <td>${d(m.demo)}</td>
-        <td>${d(m.accept)}</td>
-        <td><span class="work-days">${m.workList}</span></td>
+        <td>خلال ثلاثة أيام عمل بعد العرض</td>
       </tr>
     `).join("");
 
@@ -612,43 +615,32 @@
           <strong>${m.seq}. الوحدة ${m.id} — ${m.name}</strong>
           <span class="tag a">${m.days} أيام عمل فقط</span>
         </div>
-        <div class="mod-dates">
-          <div><div class="lbl">بداية الاتفاق مع العميل</div>${d(m.clientDue)}</div>
-          <div><div class="lbl">نهاية الاتفاق</div>${d(m.agreeEnd)}</div>
-          <div><div class="lbl">أول يوم تنفيذ</div>${d(m.start)}</div>
-          <div><div class="lbl">آخر يوم عمل / العرض</div>${d(m.demo)}</div>
-          <div><div class="lbl">آخر موعد للقبول</div>${d(m.accept)}</div>
-        </div>
         <div class="mod-body">
-          <div><b>أيام الاتفاق مع العميل (ماذا يحتاج):</b> <span class="work-days">${m.agreeList}</span></div>
+          <div><b>أيام الاتفاق مع العميل:</b> ثلاثة أيام عمل قبل التنفيذ، للاتفاق على المطلوب</div>
           <div style="margin-top:6px"><b>يُتفق فيه على:</b> ${m.client}</div>
-          <div style="margin-top:6px"><b>أيام التنفيذ (بدون جمعة وسبت وإجازات):</b> <span class="work-days">${m.workList}</span></div>
-          <div style="margin-top:6px"><b>الشرط السابق:</b> ${m.depends}</div>
+          <div style="margin-top:6px"><b>أيام التنفيذ:</b> ${m.days} أيام عمل (بدون جمعة وسبت وإجازات)</div>
+          <div style="margin-top:6px"><b>الشرط السابق:</b> ${noDates(m.depends)}</div>
           <div style="margin-top:6px"><b>تُقبل الوحدة عند تحقق الآتي:</b> ${m.exit}</div>
         </div>
       </div>
     `).join("");
 
     document.getElementById("single-path").innerHTML = MODULES.map(m => `
-      <li>الترتيب ${m.seq} — الوحدة ${m.id}: ${m.name} — الاتفاق <span class="date">${m.agreeList}</span> — القبول <span class="date">${m.accept[1]}</span></li>
+      <li>الترتيب ${m.seq} — الوحدة ${m.id}: ${m.name} — اتفاق ثلاثة أيام عمل قبل التنفيذ — ${m.days} أيام عمل — القبول خلال ثلاثة أيام عمل بعد العرض</li>
     `).join("");
 
     document.getElementById("master-table").innerHTML = MASTER.map(r => `
       <tr>
-        <td><span class="date">${r[0]}</span></td>
-        <td>${r[1]}</td>
         <td><span class="tag ${r[4] || ""}">${r[2]}</span></td>
-        <td>${r[3]}</td>
+        <td>${noDates(r[3])}</td>
       </tr>
     `).join("");
 
     document.getElementById("weeks-table").innerHTML = WEEKS.map(w => `
       <tr>
         <td>الأسبوع ${w[0]}</td>
-        <td><span class="date">${w[1]}</span></td>
-        <td><span class="date">${w[2]}</span></td>
         <td>${w[3]}</td>
-        <td>${w[4]}</td>
+        <td>${noDates(w[4])}</td>
       </tr>
     `).join("");
   </script>
